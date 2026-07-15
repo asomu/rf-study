@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+output/playwright/
+.playwright-cli/
+.DS_Store
+*.local
+
+# UI audit screenshots are local evidence, not source.
+.planning/ui-reviews/*.png
+.planning/ui-reviews/*.webp
+.planning/ui-reviews/*.jpg

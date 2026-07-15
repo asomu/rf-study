@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-05-05
+Last updated: 2026-07-15
 
 Progress is tracked in three dimensions:
 
@@ -50,14 +50,14 @@ Initial values are working baselines and should be revised as evidence is collec
 
 | Feature | State | Notes |
 | --- | --- | --- |
-| Documentation system | Building | Initial Markdown source-of-truth system is being created |
-| GSM Burst/PvT Lab | Planned | First simulator-centered learning module |
+| Documentation system | Validated | Specs, phase summary, audit, decisions, and progress are repo-tracked |
+| GSM Burst/PvT Lab | Validated | Learn → Lab → Challenge → Review flow passes unit, E2E, responsive, and accessibility checks |
 | GSM Phase Error Lab | Idea | Candidate second GSM module |
 | EDGE IQ/EVM Lab | Idea | Candidate EDGE module |
 | ORFS/Spectrum Lab | Idea | Candidate spectrum module |
 | LTE/NR ACLR/EVM Lab | Idea | Candidate LTE/NR measurement module |
 | Mode Switching Lab | Idea | Candidate integrated design module |
-| Progress tracking in app | Idea | Later app feature after learning modules stabilize |
+| Progress tracking in app | Validated | Local concept, prediction, judgment, diagnosis, challenge, and teach-back evidence |
 
 ## Session Progress Template
 

@@ -1,6 +1,6 @@
 # Idea Backlog
 
-Last updated: 2026-05-05
+Last updated: 2026-07-15
 
 This file captures ideas before they become roadmap work.
 
@@ -31,7 +31,7 @@ An idea should move to `docs/ROADMAP.md` only when:
 | LTE/NR ACLR/EVM Lab | Raw | Extends measurement thinking to OFDM-style modes | Keep V1 smaller first |
 | Mode Switching State Machine Lab | Raw | Explains glitch, sequencing, bias settling, and control timing | Strong Phase 2 candidate |
 | Production Test Flow Optimizer | Raw | Connects learning to Mark's strength in automation and production test | Needs app/data scope later |
-| Teaching Mode | Raw | Helps convert simulator screens into junior-engineer teaching material | Useful after first labs exist |
+| Teaching Mode | Accepted | Helps convert simulator screens into junior-engineer teaching material | M1 print snapshot delivered; future modules should reuse it |
 | Measurement Data Import | Parked | Allows comparison with real CSV/log data | Wait until educational models are stable |
 
 ## Intake Template

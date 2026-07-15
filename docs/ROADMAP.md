@@ -1,6 +1,6 @@
 # Roadmap
 
-Last updated: 2026-05-05
+Last updated: 2026-07-15
 
 ## Roadmap Rule
 
@@ -72,7 +72,7 @@ Product outcomes:
 | 3 | GSM Burst/PvT simulator | Time-domain graph, educational PvT mask, pass/fail evaluation |
 | 4 | Parameter challenge and review | Challenge scenarios, explanation feedback, validation and next-module decision |
 
-## Current Planned Feature
+## Current Validated Feature
 
 `GSM Burst/PvT Lab`
 
@@ -89,3 +89,5 @@ V1 scope:
 - No backend
 - No real measurement data import
 - No full 3GPP conformance implementation
+
+Validation completed on 2026-07-15. The next candidate vertical slice is `GSM Phase Error Lab`; it remains an idea until its learning contract and model boundary are reviewed.

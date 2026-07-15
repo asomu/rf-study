@@ -34,13 +34,14 @@ Notion may be used later as a dashboard, mirror, or idea capture surface, but pr
 - [Idea Backlog](docs/IDEA_BACKLOG.md): new ideas before they are accepted into the roadmap
 - [Decisions](docs/DECISIONS.md): important project and technical decisions
 - [Session Log](docs/SESSION_LOG.md): work-session history and next actions
+- [M1 Learner-content Review](docs/m1/M1-CONTENT-REVIEW.md): learner suitability, explanation-material coverage, boundaries, and next content ideas
 
 ## Current Status
 
-- Repository status: documentation foundation
+- Repository status: M1 validated implementation
 - Current phase: Phase 1 - Multi-Mode fundamentals
-- Current focus: define the project map before implementing the first app feature
-- First planned module: `GSM Burst/PvT Lab`
+- Current focus: use `GSM Burst/PvT Lab` to collect learning evidence and scope M2
+- First validated module: `GSM Burst/PvT Lab`
 
 ## Working Rules
 
@@ -52,7 +53,7 @@ Notion may be used later as a dashboard, mirror, or idea capture surface, but pr
 
 ## Next Actions
 
-1. Write the implementation spec for `GSM Burst/PvT Lab`.
-2. Choose the initial web app stack and folder structure.
-3. Build the first simulator with educational approximation, not full conformance accuracy.
-4. Validate that the first lab teaches why PvT mask pass/fail happens.
+1. Complete M1 challenges and a 90-second teach-back as learner evidence.
+2. Run a short user review with RF engineers and capture confusing terms or interactions.
+3. Lock the source version/section metadata before adding any numeric specification-reference profile.
+4. Scope `GSM Phase Error Lab` as the next vertical module.

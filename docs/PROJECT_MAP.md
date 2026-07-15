@@ -1,6 +1,6 @@
 # Project Map
 
-Last updated: 2026-05-05
+Last updated: 2026-07-15
 
 ## North Star
 
@@ -66,13 +66,13 @@ Initial module sequence:
 
 | Feature area | Purpose | Initial state |
 | --- | --- | --- |
-| Learning notes | Explain concepts with Korean text and RF English terms | Planned |
-| Visual simulators | Make time/frequency/IQ-domain behavior visible | Planned |
-| Parameter challenges | Train understanding through pass/fail tuning | Planned |
-| Troubleshooting cases | Practice diagnosis from symptoms and plots | Idea |
-| Progress tracking | Track competency and module completion | Idea |
+| Learning notes | Explain concepts with Korean text and RF English terms | M1 validated |
+| Visual simulators | Make time/frequency/IQ-domain behavior visible | M1 PvT validated |
+| Parameter challenges | Train understanding through prediction and first/worst reading | M1 validated |
+| Troubleshooting cases | Practice diagnosis from symptoms and plots | Six M1 cases validated |
+| Progress tracking | Track distinct competency evidence and module completion | Local v3 validated |
 | Data import | Compare simulated behavior with measurement data | Idea |
-| Teaching mode | Create clean visual outputs for explaining to others | Idea |
+| Teaching mode | Create clean visual outputs for explaining to others | M1 print snapshot validated |
 
 ## Module Relationship
 

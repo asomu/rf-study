@@ -1,6 +1,6 @@
 # Decisions
 
-Last updated: 2026-05-05
+Last updated: 2026-07-15
 
 This file records decisions that shape project direction. Keep entries short and useful.
 
@@ -81,3 +81,51 @@ The immediate goal is principle understanding. A simplified model will make caus
 Impact:
 
 V1 should be clearly labeled as educational. Real conformance masks, measurement data import, and exact 3GPP limit handling can be added later.
+
+## D-20260715-01 - M1 Uses a Static React Vertical Slice
+
+Status: Accepted
+
+Decision:
+
+Use Vite, React, TypeScript, Recharts, local versioned progress storage, and hash routes for the M1 vertical slice. Deploy the static `dist` through GitHub Pages Actions.
+
+Reason:
+
+M1 needs rich local interaction and visual explanation but no account or backend. Hash routing and relative assets keep all four learning routes compatible with static hosting.
+
+Impact:
+
+Every module must pass unit/model checks, browser E2E, responsive/axe gates, and a production `dist` smoke test.
+
+## D-20260715-02 - Competency Uses Distinct Evidence
+
+Status: Accepted
+
+Decision:
+
+Track concept checks, prediction, first/worst judgment, per-scenario diagnosis plus evidence, and explicit teach-back separately.
+
+Reason:
+
+Viewing or repeatedly submitting an activity is not proof of RF understanding. Fixed Challenge cases must overwrite their prior result rather than inflate totals.
+
+Impact:
+
+Progress schema v3 validates bounded model data, migrates safe v1/v2 records, deduplicates Judgment by parameter signature, and resets invalid records before rendering.
+
+## D-20260715-03 - Specification Profiles Require Pinned Context
+
+Status: Accepted
+
+Decision:
+
+V1 exposes source-family guidance but no official numeric overlay. A future overlay requires pinned release/version/section, band, power class, measurement setup, normalization, and expert review.
+
+Reason:
+
+An unlabeled or partially copied mask can teach incorrect conformance judgment even when the simulation itself is internally consistent.
+
+Impact:
+
+The UI consistently says simulated/educational, uses nominal plateau 0 dBc as its declared reference, and avoids conformance verdict language.
