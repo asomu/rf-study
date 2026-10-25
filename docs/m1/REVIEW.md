@@ -30,7 +30,7 @@
 
 - [x] `npm run test:e2e` passes (4/4 Playwright suites)
 - [x] No page-level overflow at 1440, 768, 375 px
-- [x] Zero axe serious/critical violations on Learn, Lab, Challenge, Review
+- [x] Zero axe serious/critical violations on Learn, Lab, Challenge, Review — **corrected 2026-10-25**: the original check scanned the lazy-route loading screen, not the page. After waiting for content, Learn had 16 and Lab 26 color-contrast violations; fixed the same day
 - [x] Keyboard-only Lab and Challenge operation
 - [x] Reduced-motion preference applied from first render
 - [x] Teaching Snapshot fits A4 landscape
@@ -39,7 +39,7 @@
 ### Deployable output
 
 - [x] `npm run test:smoke` passes against production `dist` on all four hash routes
-- [ ] GitHub Actions deploy succeeds — **failed on 2026-07-15 at the E2E step** (passes locally; CI logs expired)
+- [ ] GitHub Actions deploy succeeds — failed 2026-07-15 and 2026-10-25 at the E2E color-contrast check; fix pushed 2026-10-25
 
 ### Content and boundary
 
@@ -65,6 +65,7 @@
 | P2 | No synchronized control/RF or cross-case comparison visuals | Added FIG. 02 control timeline and FIG. 03 failure atlas |
 | P2 | Educational vs specification context not separated in Lab | Collapsible specification-family layer; REF START/END chart labels |
 | P2 | Full chart stack loaded before route selection | Route-level lazy loading; Latin-only font assets |
+| High (2026-10-25) | axe E2E waited only for `#main-content`, which is visible during the lazy-route fallback, so page content was never scanned; real contrast failures reached CI | E2E waits for the fallback to detach and the `h1` to render; muted text on paper set to `#46575a`, on instrument panels to `#8fa1a3`, section number to `#7d7362` |
 
 ## Learner-content Assessment
 
@@ -76,7 +77,7 @@ Appropriate for a first causal-learning module, as long as the educational/confo
 
 ## Follow-ups
 
-1. Fix the GitHub Actions E2E failure so Pages deploys.
+1. Extend the axe scan to post-interaction states (Lab after a run, Review with saved evidence); only initial page states are scanned today.
 2. Test micro-label readability with learners; enlarge if it slows reading.
 3. Optional bench-correlation lesson with anonymized real traces and instrument/calibration/trigger/normalization metadata.
 4. Pair fast and slow ramps with ORFS consequences to show the PvT–spectrum trade-off.

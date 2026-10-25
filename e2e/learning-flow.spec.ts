@@ -1,5 +1,14 @@
 import AxeBuilder from '@axe-core/playwright'
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+// #main-content is visible while a lazy route still shows its loading fallback,
+// so wait for the fallback to go and the page heading to render before checking the page.
+async function openLoaded(page: Page, path: string) {
+  await page.goto(path)
+  await expect(page.locator('#main-content')).toBeVisible()
+  await expect(page.getByText('SIGNAL PATH LOADING…')).toHaveCount(0)
+  await expect(page.locator('h1').first()).toBeVisible()
+}
 
 const routes = ['learn', 'lab', 'challenge', 'review']
 const pagePaths = ['/#/', ...routes.map((route) => `/#/modules/gsm-pvt/${route}`)]
@@ -101,8 +110,7 @@ test('핵심 viewport에서 페이지 수준 가로 넘침이 없다', async ({ 
 
   await page.setViewportSize({ width: 375, height: 812 })
   for (const path of pagePaths) {
-    await page.goto(path)
-    await expect(page.locator('#main-content')).toBeVisible()
+    await openLoaded(page, path)
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
     expect(overflow, `${path} 모바일 화면의 페이지 가로 넘침`).toBeLessThanOrEqual(0)
   }
@@ -110,8 +118,7 @@ test('핵심 viewport에서 페이지 수준 가로 넘침이 없다', async ({ 
 
 test('각 학습 화면에 serious 또는 critical 접근성 위반이 없다', async ({ page }) => {
   for (const path of pagePaths) {
-    await page.goto(path)
-    await expect(page.locator('#main-content')).toBeVisible()
+    await openLoaded(page, path)
     const results = await new AxeBuilder({ page }).analyze()
     const major = results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))
     expect(major, `${path}: ${major.map((item) => item.id).join(', ')}`).toEqual([])

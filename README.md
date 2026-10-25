@@ -45,7 +45,7 @@ npm run dev
 
 - Roadmap: 9 tracks, 78 items (71 core, 7 deferred); 2 ready, both served by M1
 - M1 GSM Burst/PvT Lab: validated locally
-- Deploy: GitHub Pages blocked by a CI color-contrast failure (see Session Log)
+- Deploy: GitHub Pages via GitHub Actions on push to `main`
 
 ## Working Rules
 
@@ -65,6 +65,6 @@ Build against the spec, then run one independent review before marking it ready.
 
 ## Next Actions
 
-1. Fix the CI color-contrast failure so GitHub Pages deploys.
-2. Pick the first roadmap item to fill.
+1. Pick the first roadmap item to fill.
+2. Extend accessibility checks to post-interaction states.
 3. Complete M1 challenges and the 90-second teach-back as learner evidence.

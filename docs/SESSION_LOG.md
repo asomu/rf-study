@@ -97,12 +97,15 @@ Decisions:
 - D-20261025-01: one spec and one review per module.
 - D-20261025-02: nine-track roadmap with a home map; rf-wiki contributes topic names only.
 
+- Found the CI failure's root cause: the axe E2E only waited for `#main-content`, which is visible while a lazy route shows its loading fallback, so locally axe scanned the loading screen and always passed. With the wait fixed, Learn had 16 and Lab 26 real color-contrast violations. Fixed the test wait and the muted text colors; all five pages scan clean.
+
 Blocked:
 
-- GitHub Pages deploy, until the CI color-contrast failure is fixed.
+- None, once the pushed CI run deploys.
 
 Next actions:
 
-- Fix the CI color-contrast failure so Pages deploys. Some colors look like real low contrast (for example `.section-number` #b3a996 on #dcd3c0), not only timing.
+- Confirm the GitHub Pages deploy succeeded.
 - Pick the first roadmap item to fill and set it to `building` in `roadmap.ts`.
+- Extend axe to post-interaction states (Lab after a run, Review with evidence).
 - Start M1 learner evidence: challenges and the 90-second teach-back.
