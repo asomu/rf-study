@@ -1,0 +1,143 @@
+import type { BenchItem } from './types'
+
+export const CONNECTION_SAFETY: BenchItem = {
+  id: 'connection-safety',
+  number: 1,
+  title: '연결과 안전',
+  summary: 'SG와 SA를 원격으로 연결하고, 장비를 망가뜨리지 않는 출력 상한과 10 MHz 기준 신호를 먼저 맞춥니다.',
+  principle: [
+    'PC는 VISA 주소로 장비를 찾고, SCPI라는 텍스트 명령을 주고받습니다. 명령은 "설정"(예: :OUTPut ON)과 물음표로 끝나는 "질의"(예: *IDN?)로 나뉩니다. 질의만 응답을 돌려줍니다.',
+    '장비는 받은 명령이 잘못됐을 때 화면에 경고만 띄우고 계속 동작합니다. 그 기록은 에러 큐에 쌓이므로, 프로그램이 :SYSTem:ERRor?로 직접 꺼내 보지 않으면 설정이 틀린 채로 측정이 진행됩니다.',
+    'N9020B의 RF 입력은 평균 전력 +30 dBm(1 W)까지 안전합니다. 실습에서는 SA 입력을 0 dBm 이하로 유지하고, SG에 "사용자 최대 출력"을 걸어 실수로 높은 값을 넣어도 그 이상 나가지 않게 합니다.',
+    '두 장비는 각자 내부 10 MHz 기준 발진기로 주파수를 만듭니다. 기준이 다르면 두 기준의 오차 차이만큼 어긋나게 봅니다. 예를 들어 0.1 ppm 차이면 1 GHz에서 100 Hz입니다. SG의 10 MHz OUT을 SA의 EXT REF IN에 연결하면 두 장비가 같은 기준을 쓰게 됩니다.',
+  ],
+  settings: [
+    {
+      name: 'VISA 주소',
+      effect: '어느 장비에 어떤 방식(HiSLIP, VXI-11, socket)으로 붙을지 정함',
+      defaultValue: 'Keysight Connection Expert에 표시된 주소',
+      pitfall: 'IP만 맞고 방식이 다르면 연결은 되는데 타임아웃이 잦을 수 있음. 주소를 코드에 고정해 두면 장비 교체 시 깨짐',
+    },
+    {
+      name: '*RST',
+      effect: '측정 설정을 기본값으로 되돌림',
+      defaultValue: '—',
+      pitfall: 'SA에서 *RST는 :SYST:PRES 후 :INIT:CONT OFF와 같아 단일 측정 모드가 됨. 화면이 멈춘 것처럼 보이는 이유',
+    },
+    {
+      name: 'SG User Power Max',
+      effect: 'SG 출력이 이 값을 넘지 못하게 막음',
+      defaultValue: '+30 dBm (*RST), 사용 안 함',
+      pitfall: 'MAX 값만 넣고 ENABle ON을 안 하면 제한이 걸리지 않음',
+    },
+    {
+      name: 'SG RF Output',
+      effect: 'RF 출력 커넥터로 실제 신호를 내보냄',
+      defaultValue: 'OFF (*RST)',
+      pitfall: '주파수와 레벨을 설정해도 RF ON 전에는 신호가 없음. 프로그램이 끝날 때 OFF를 안 하면 다음 사람이 모르는 신호를 받음',
+    },
+    {
+      name: 'SA Freq Ref In',
+      effect: '내부 기준을 쓸지, EXT REF IN의 외부 기준을 쓸지 정함',
+      defaultValue: 'SENSe (외부 신호가 있으면 자동 전환)',
+      pitfall: 'SENSe로 두면 케이블이 빠졌을 때 경고 없이 내부 기준으로 돌아감. 질의 결과(INT/EXT)로 실제 상태를 확인해야 함',
+    },
+    {
+      name: 'SG 기준 발진기 자동 선택',
+      effect: '10 MHz IN에 신호가 있으면 외부 기준으로 자동 전환',
+      defaultValue: 'ON (*RST)',
+      pitfall: 'SG를 기준으로 쓰는 구성에서는 SG 쪽 10 MHz IN에 아무것도 연결하지 않아야 함',
+    },
+  ],
+  steps: [
+    {
+      id: 'idn',
+      title: '두 장비 응답 확인',
+      actions: [
+        '실습 PC에서 Keysight Connection Expert를 열고 N5182B와 N9020B의 VISA 주소를 확인합니다.',
+        '각 장비에 *IDN?를 보내고 응답을 그대로 적습니다. 모델, 시리얼, 펌웨어 버전이 나옵니다.',
+      ],
+      check: '응답이 "Keysight Technologies,N5182B,..." 또는 "...,N9020B,..." 형태면 정상입니다.',
+      record: { label: 'SA *IDN? 응답 (펌웨어 버전 포함)' },
+    },
+    {
+      id: 'error-queue',
+      title: '에러 큐 비우기',
+      actions: [
+        '두 장비에 *CLS를 보냅니다.',
+        ':SYSTem:ERRor?를 반복해서 보내 +0,"No error"가 나올 때까지 비웁니다.',
+      ],
+      check: '처음부터 +0이 아니었다면 이전 사용자가 남긴 에러입니다. 무엇이었는지 적어 두면 좋습니다.',
+      record: { label: '처음 꺼낸 에러 (없으면 +0)' },
+    },
+    {
+      id: 'power-limit',
+      title: 'SG 출력 상한 걸기',
+      actions: [
+        'SG에서 AMPTD → More → User Power Max를 0 dBm으로 설정하고 Enable을 On으로 바꿉니다.',
+        '진폭에 +5 dBm을 입력해 봅니다.',
+      ],
+      check: '설정이 0 dBm에서 멈추거나 경고가 떠야 합니다. 그대로 +5 dBm이 되면 Enable이 꺼진 상태입니다.',
+      record: { label: '+5 dBm 입력 후 실제 표시된 진폭', unit: 'dBm', predict: true },
+    },
+    {
+      id: 'pad',
+      title: '경로 구성 기록',
+      actions: [
+        '감쇠기 몸체에 적힌 값(예: 10 dB, 20 dB)을 읽습니다.',
+        '케이블 종류와 길이도 함께 적어 둡니다. 7번 항목(전력 정확도)에서 실제 손실을 잽니다.',
+      ],
+      record: { label: '감쇠기 표기값', unit: 'dB' },
+    },
+    {
+      id: 'reference',
+      title: '10 MHz 기준 공유',
+      actions: [
+        'SG 뒷면 10 MHz OUT을 SA 뒷면 EXT REF IN에 BNC 케이블로 연결합니다.',
+        'SA에서 Input/Output → Freq Ref In을 Sense로 두고, :SENSe:ROSCillator:SOURce?로 현재 상태를 질의합니다.',
+      ],
+      check: 'EXT가 나오면 SA가 SG의 기준을 쓰고 있습니다. INT가 나오면 케이블이나 커넥터를 확인합니다.',
+      record: { label: 'SA 기준 질의 결과 (INT/EXT)' },
+    },
+    {
+      id: 'first-signal',
+      title: '첫 신호로 경로 확인',
+      actions: [
+        'SG: 1 GHz, −10 dBm으로 설정하고 RF ON.',
+        'SA: Center 1 GHz, Span 1 MHz로 두고 Peak Search로 marker를 신호에 올립니다.',
+        '측정 후 SG RF OFF.',
+      ],
+      check: '예상값은 −10 dBm에서 감쇠기 값과 케이블 손실을 뺀 값입니다. 1 dB 안쪽 차이는 7번 항목에서 다룹니다.',
+      record: { label: 'SA marker 레벨', unit: 'dBm', predict: true },
+    },
+  ],
+  scpi: [
+    { command: '*IDN?', instrument: 'SG · SA', purpose: '모델 · 시리얼 · 펌웨어 확인', source: 'ieee-488.2' },
+    { command: '*CLS', instrument: 'SG · SA', purpose: '상태 레지스터와 에러 큐 초기화', source: 'ieee-488.2' },
+    { command: '*RST', instrument: 'SG · SA', purpose: '기본 상태로 복귀 (SA는 단일 측정 모드가 됨)', source: 'xsa-scpi' },
+    { command: '*OPC?', instrument: 'SG · SA', purpose: '앞의 명령이 끝날 때까지 기다린 뒤 1 반환', source: 'ieee-488.2' },
+    { command: ':SYSTem:ERRor[:NEXT]?', instrument: 'SG · SA', purpose: '에러 큐에서 하나 꺼내기. 형식 <번호>,"<내용>"', source: 'xsa-scpi' },
+    { command: '[:SOURce]:POWer:USER:MAX <ampl>', instrument: 'SG', purpose: '사용자 최대 출력 설정 (*RST 30 dBm)', source: 'mxg-scpi' },
+    { command: '[:SOURce]:POWer:USER:ENABle ON|OFF', instrument: 'SG', purpose: '사용자 최대 출력 제한 켜기', source: 'mxg-scpi' },
+    { command: '[:SOURce]:FREQuency[:CW] <freq>', instrument: 'SG', purpose: 'CW 주파수 설정', source: 'mxg-scpi' },
+    { command: '[:SOURce]:POWer[:LEVel][:IMMediate][:AMPLitude] <value><unit>', instrument: 'SG', purpose: 'RF 출력 레벨 설정', source: 'mxg-scpi' },
+    { command: ':OUTPut[:STATe] ON|OFF', instrument: 'SG', purpose: 'RF 출력 켜기/끄기 (*RST 0)', source: 'mxg-scpi' },
+    { command: '[:SOURce]:ROSCillator:SOURce?', instrument: 'SG', purpose: '현재 기준 발진기(INT/EXT/BBG) 질의', source: 'mxg-scpi' },
+    { command: '[:SENSe]:ROSCillator:SOURce:TYPE INTernal|EXTernal|SENSe', instrument: 'SA', purpose: '기준 신호 선택 방식 설정', source: 'xsa-scpi' },
+    { command: '[:SENSe]:ROSCillator:SOURce?', instrument: 'SA', purpose: '실제로 쓰고 있는 기준(INT/EXT) 질의', source: 'xsa-scpi' },
+    { command: '[:SENSe]:POWer[:RF]:ATTenuation?', instrument: 'SA', purpose: '현재 입력 감쇠량 확인', source: 'xsa-scpi' },
+    { command: '[:SENSe]:FREQuency:CENTer <freq> / :SPAN <freq>', instrument: 'SA', purpose: '중심 주파수와 표시 폭 설정', source: 'xsa-scpi' },
+    { command: ':INITiate:CONTinuous OFF', instrument: 'SA', purpose: '연속 sweep 멈춤 (단일 측정 모드)', source: 'xsa-scpi' },
+    { command: ':INITiate[:IMMediate]', instrument: 'SA', purpose: 'sweep 한 번 시작. 뒤에 *OPC?로 완료 대기', source: 'xsa-scpi' },
+    { command: ':CALCulate:MARKer1:MAXimum', instrument: 'SA', purpose: 'Marker 1을 가장 큰 신호로 이동 (Peak Search)', source: 'xsa-scpi' },
+    { command: ':CALCulate:MARKer1:X? / :Y?', instrument: 'SA', purpose: 'Marker 위치의 주파수와 레벨 읽기', source: 'xsa-scpi' },
+  ],
+  testProgram: [
+    '시작할 때 *IDN?을 읽어 모델과 펌웨어를 측정 데이터에 함께 남깁니다. 펌웨어가 바뀌면 결과가 달라질 수 있기 때문입니다.',
+    '설정 블록이 끝날 때마다 :SYSTem:ERRor?를 비울 때까지 읽고, 0이 아니면 측정을 멈춥니다. 잘못된 설정으로 측정한 값이 PASS로 기록되는 것을 막습니다.',
+    'User Power Max는 프로그램 버그나 잘못된 limit 파일로부터 DUT와 SA를 지키는 하드웨어 인터락 역할을 합니다. 측정 시작 전에 설정하고 질의로 확인합니다.',
+    'RF OFF는 try/finally처럼 예외가 나도 반드시 실행되는 자리에 둡니다.',
+    '측정 전에 SA 기준이 EXT인지 질의해서 데이터에 남기면, 나중에 주파수 오차가 이상할 때 원인을 바로 가를 수 있습니다.',
+  ],
+  script: 'bench/labs/lab01_connection.py',
+}

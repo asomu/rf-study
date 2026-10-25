@@ -26,6 +26,9 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test
+      - name: Bench script tests
+        working-directory: bench
+        run: python3 -m unittest discover -s tests -t .
       - run: npm run test:e2e
       - run: npm run build
       - run: npm run test:smoke

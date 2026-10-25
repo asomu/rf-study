@@ -110,6 +110,33 @@ Blocked:
 Next actions:
 - Pick the first roadmap item to fill and set it to `building` in `roadmap.ts`.
 - Extend axe to post-interaction states (Lab after a run, Review with evidence).
-- Instrument mastery is the current focus: an SG + SA thru bench series (N5182B + N9020B, cable + pad, run from another PC) was proposed and awaits approval.
 - After the SG + SA series: waveforms on SG and SA (generation, measurement, signal types and principles). Logged in `docs/IDEA_BACKLOG.md`.
+
+## 2026-10-25 - SG + SA Bench Series, Item 01
+
+Goal:
+
+- Start instrument mastery with hands-on SG + SA practice over the thru path, one item at a time.
+
+Progress:
+
+- Bench: N5182B MXG → cable → fixed attenuator → N9020B MXA, controlled from a separate lab PC.
+- Wrote `docs/bench/SPEC.md`: item format (principle, settings, thru steps with predict/measure, SCPI, test-program view), safety contract, script conventions, 13-item order.
+- Verified commands against Keysight documents: MXG SCPI Command Reference N5180-90057 (2016) and X-Series SA Mode Reference N9060-90027 (2014, N9020A; recheck on N9020B firmware). N9020B max safe input +30 dBm from Specifications Guide 9018-04846.
+- Built `#/bench/:itemId` with item 01 "연결과 안전"; records saved under `rf-study:bench:v1`.
+- Added `bench/` Python package: dry-run by default, SG user power max before RF on, RF off in `finally`, error queue checks. Six fake-transport tests, also run in CI.
+- Track 5 now holds the 13-item SG + SA group; "측정 속도와 정확도" and "SCPI 자동화 패턴" were folded into it.
+
+Decisions:
+
+- Bench items are data files rendered by one page, not modules with their own SPEC/REVIEW.
+
+Blocked:
+
+- None. The script has not run on real instruments yet.
+
+Next actions:
+
+- Run `python3 -m labs.lab01_connection` (dry-run, then `--live`) on the lab PC and fill the app's record fields.
+- Build bench item 02 "CW 출력과 marker" after item 01 is practised.
 - Start M1 learner evidence: challenges and the 90-second teach-back.

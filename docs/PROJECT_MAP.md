@@ -44,6 +44,7 @@ flowchart BT
 | --- | --- | --- |
 | Roadmap home | `#/` | Validated |
 | M1 GSM Burst / PvT Lab | `#/modules/gsm-pvt/{learn,lab,challenge,review}` | Validated |
+| Bench practice (SG + SA thru) | `#/bench/<item-id>` | Item 01 validated |
 | Progress tracking | browser localStorage, schema v3 | Validated for M1 |
 
 Unknown routes redirect to the roadmap home.
@@ -57,6 +58,9 @@ Unknown routes redirect to the roadmap home.
 | `src/domain/<topic>/` | Pure RF models and their tests, independent of UI |
 | `src/pages/`, `src/components/` | Module screens and shared components |
 | `src/state/progress.tsx` | Learning evidence storage and validation |
+| `src/content/bench/` | One data file per bench item: principle, settings, steps, SCPI, test-program notes |
+| `src/state/benchRecords.ts` | Bench predictions and measured values in the browser |
+| `bench/` | Python/PyVISA scripts for the lab PC, dry-run by default, with fake-transport tests |
 
 ## Growth Rule
 

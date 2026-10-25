@@ -33,6 +33,8 @@ export const ROADMAP_LAYERS: { id: RoadmapLayer; label: string }[] = [
 ]
 
 const GSM_PVT_LAB_HREF = '/modules/gsm-pvt/learn'
+const SG_SA = 'SG + SA 쓰루 실습'
+const OTHER_INSTRUMENTS = '다른 장비'
 
 const planned = (id: string, title: string, origin: RoadmapItemOrigin, group?: string): RoadmapItem => ({ id, title, status: 'planned', origin, group })
 
@@ -128,14 +130,23 @@ export const ROADMAP_TRACKS: RoadmapTrack[] = [
     question: '장비를 어떻게 설정하고 빠르고 정확하게 읽나',
     layer: 'bench',
     items: [
-      planned('signal-generator', 'Signal generator', 'wiki'),
-      planned('signal-analyzer', 'Spectrum / signal analyzer', 'wiki'),
-      planned('vna-calibration', 'VNA · calibration · reference plane', 'wiki'),
-      planned('power-sensor', 'Power sensor: average · peak · burst', 'wiki'),
-      planned('dc-supply', 'DC power supply: bias · remote sense · 전류 측정', 'wiki'),
-      planned('instrument-sync', '한 test point를 여러 장비가 함께 만드는 동기화', 'wiki'),
-      planned('speed-vs-accuracy', '측정 속도와 정확도: RBW · averaging · sweep time', 'new'),
-      planned('scpi-patterns', 'SCPI 자동화 패턴: 상태 관리 · 에러 처리 · 타임아웃', 'new'),
+      { id: 'connection-safety', title: '연결과 안전', status: 'ready', origin: 'wiki', group: SG_SA, href: '/bench/connection-safety' },
+      planned('cw-marker', 'CW 출력과 marker', 'wiki', SG_SA),
+      planned('sa-axes', 'SA 기본 축: center · span · ref level · scale', 'wiki', SG_SA),
+      planned('rbw-vbw-noise', 'RBW · VBW · noise floor · sweep time', 'wiki', SG_SA),
+      planned('attenuation-overload', '감쇠기 · preamp · 과입력', 'wiki', SG_SA),
+      planned('detector-averaging', 'Detector와 averaging', 'wiki', SG_SA),
+      planned('power-accuracy', '전력 정확도와 경로 손실', 'wiki', SG_SA),
+      planned('sg-harmonics-spurious', 'SG의 harmonic과 spurious 측정', 'wiki', SG_SA),
+      planned('phase-noise', 'Phase noise와 noise marker', 'wiki', SG_SA),
+      planned('zero-span', 'Zero span: 시간 영역 측정', 'wiki', SG_SA),
+      planned('trigger-sync', 'Trigger와 *OPC? 동기화', 'wiki', SG_SA),
+      planned('modulated-signal', '변조 신호: channel power · ACP', 'wiki', SG_SA),
+      planned('scpi-patterns', 'SCPI 자동화 패턴: 상태 관리 · 에러 처리 · 타임아웃', 'new', SG_SA),
+      planned('vna-calibration', 'VNA · calibration · reference plane', 'wiki', OTHER_INSTRUMENTS),
+      planned('power-sensor', 'Power sensor: average · peak · burst', 'wiki', OTHER_INSTRUMENTS),
+      planned('dc-supply', 'DC power supply: bias · remote sense · 전류 측정', 'wiki', OTHER_INSTRUMENTS),
+      planned('instrument-sync', '한 test point를 여러 장비가 함께 만드는 동기화', 'wiki', OTHER_INSTRUMENTS),
     ],
   },
   {

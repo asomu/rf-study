@@ -24,6 +24,7 @@ npm run dev
 | `npm run test:e2e` | Browser flow, overflow, and accessibility tests |
 | `npm run check` | Tests plus production build |
 | `npm run test:smoke` | Production `dist` route check |
+| `cd bench && python3 -m unittest discover -s tests -t .` | Bench script tests (no instruments needed) |
 
 ## Source Of Truth
 
@@ -40,10 +41,12 @@ npm run dev
 - [Idea Backlog](docs/IDEA_BACKLOG.md): ideas not on the roadmap yet
 - [M1 Spec](docs/m1/SPEC.md) · [M1 Review](docs/m1/REVIEW.md): `GSM Burst/PvT Lab`
 - [Module templates](docs/templates/): `SPEC.md` and `REVIEW.md` to copy for each new module
+- [Bench Spec](docs/bench/SPEC.md) · [Bench scripts](bench/README.md): SG + SA thru practice on the lab bench
 
 ## Current Status
 
-- Roadmap: 9 tracks, 78 items (71 core, 7 deferred); 2 ready, both served by M1
+- Roadmap: 9 tracks, 87 items (80 core, 7 deferred); 3 ready
+- Bench practice: SG + SA thru series, item 01 (연결과 안전) ready
 - M1 GSM Burst/PvT Lab: validated locally
 - Deploy: https://asomu.github.io/rf-study/ (public), via GitHub Actions on push to `main`
 
@@ -65,6 +68,7 @@ Build against the spec, then run one independent review before marking it ready.
 
 ## Next Actions
 
-1. Pick the first roadmap item to fill.
-2. Extend accessibility checks to post-interaction states.
-3. Complete M1 challenges and the 90-second teach-back as learner evidence.
+1. Run bench item 01 on the lab bench and record the results.
+2. Build bench item 02 (CW 출력과 marker).
+3. Extend accessibility checks to post-interaction states.
+4. Complete M1 challenges and the 90-second teach-back as learner evidence.

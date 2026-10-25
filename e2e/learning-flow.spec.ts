@@ -11,7 +11,7 @@ async function openLoaded(page: Page, path: string) {
 }
 
 const routes = ['learn', 'lab', 'challenge', 'review']
-const pagePaths = ['/#/', ...routes.map((route) => `/#/modules/gsm-pvt/${route}`)]
+const pagePaths = ['/#/', '/#/bench/connection-safety', ...routes.map((route) => `/#/modules/gsm-pvt/${route}`)]
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => window.localStorage.clear())

@@ -2,6 +2,7 @@ import { Component, lazy, Suspense, type ErrorInfo, type ReactNode } from 'react
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
 
+const BenchPage = lazy(() => import('./pages/BenchPage').then((module) => ({ default: module.BenchPage })))
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })))
 const ChallengePage = lazy(() => import('./pages/ChallengePage').then((module) => ({ default: module.ChallengePage })))
 const LabPage = lazy(() => import('./pages/LabPage').then((module) => ({ default: module.LabPage })))
@@ -42,6 +43,7 @@ export default function App() {
     <ErrorBoundary>
       <Routes>
         <Route path="/" element={<Suspense fallback={routeLoading}><HomePage /></Suspense>} />
+        <Route path="/bench/:itemId" element={<Suspense fallback={routeLoading}><BenchPage /></Suspense>} />
         <Route path="/modules/gsm-pvt" element={<ModuleLayout />}>
           <Route index element={<Navigate replace to="learn" />} />
           <Route path="learn" element={<LearnPage />} />

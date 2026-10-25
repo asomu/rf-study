@@ -15,7 +15,7 @@ describe('roadmap data', () => {
 
   it('gives every ready item a link and no planned item a link', () => {
     for (const item of items) {
-      if (item.status === 'ready') expect(item.href, item.id).toMatch(/^\/modules\//)
+      if (item.status === 'ready') expect(item.href, item.id).toMatch(/^\/(modules|bench)\//)
       if (item.status === 'planned') expect(item.href, item.id).toBeUndefined()
     }
   })

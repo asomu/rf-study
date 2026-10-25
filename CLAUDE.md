@@ -17,8 +17,9 @@ Read these before doing anything:
 - rf-wiki (`../rf-wiki`) is a topic inventory only. Never copy its text, models or code; write content fresh.
 - A lab-sized item gets `docs/m<n>/SPEC.md` and `REVIEW.md` from `docs/templates/`. No other plan or summary files.
 - Pure RF math goes in `src/domain/<topic>/` with unit tests; screens in `src/pages/` and `src/components/`.
+- Bench items follow `docs/bench/SPEC.md`: one data file in `src/content/bench/`, one dry-run-first script in `bench/labs/`. Every SCPI command cites a source document; verify new commands against the Keysight references before adding them. The instruments are on another PC: never assume live access.
 - Educational models are labelled as approximations; no conformance verdict language.
-- Before finishing: `npm run check` and `npm run test:e2e` pass, then add a `docs/SESSION_LOG.md` entry and update `docs/PROGRESS.md` snapshot if anything changed.
+- Before finishing: `npm run check`, `npm run test:e2e`, and the bench script tests pass, then add a `docs/SESSION_LOG.md` entry and update `docs/PROGRESS.md` snapshot if anything changed.
 
 ## Commands
 

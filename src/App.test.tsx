@@ -26,12 +26,16 @@ describe('RF Study Lab roadmap home', () => {
     }
   })
 
-  it('opens each ready roadmap item as a real module page', async () => {
+  it('opens each ready roadmap item as a real page, not the home', async () => {
     const readyItems = ROADMAP_TRACKS.flatMap((track) => track.items).filter((item) => item.status === 'ready')
     expect(readyItems.length).toBeGreaterThan(0)
     for (const item of readyItems) {
       const view = renderRoute(item.href!)
-      expect(await screen.findByLabelText('GSM Burst PvT 학습 단계')).toBeInTheDocument()
+      if (item.href!.startsWith('/bench/')) {
+        expect(await screen.findByRole('heading', { level: 2, name: '쓰루 실습' })).toBeInTheDocument()
+      } else {
+        expect(await screen.findByLabelText('GSM Burst PvT 학습 단계')).toBeInTheDocument()
+      }
       view.unmount()
     }
   })
@@ -45,6 +49,41 @@ describe('RF Study Lab roadmap home', () => {
     const user = userEvent.setup()
     renderRoute('/modules/gsm-pvt/learn')
     await user.click(await screen.findByRole('link', { name: /로드맵/ }))
+    expect(await screen.findByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeInTheDocument()
+  })
+})
+
+describe('RF Study Lab bench practice', () => {
+  beforeEach(() => window.localStorage.clear())
+
+  it('shows the five sections of a bench item', async () => {
+    renderRoute('/bench/connection-safety')
+    expect(await screen.findByRole('heading', { level: 1, name: /연결과 안전/ })).toBeInTheDocument()
+    for (const name of ['원리', '설정 값의 의미', '쓰루 실습', 'SCPI 커맨드', '테스트 프로그램 관점']) {
+      expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument()
+    }
+  })
+
+  it('keeps a measured value after the page is opened again', async () => {
+    const user = userEvent.setup()
+    const first = renderRoute('/bench/connection-safety')
+    const field = (await screen.findAllByLabelText(/실측/))[0]
+    await user.type(field, '-21.3')
+    first.unmount()
+
+    renderRoute('/bench/connection-safety')
+    expect((await screen.findAllByLabelText(/실측/))[0]).toHaveValue('-21.3')
+  })
+
+  it('recovers from corrupt bench records', async () => {
+    window.localStorage.setItem('rf-study:bench:v1', '{bad-json')
+    renderRoute('/bench/connection-safety')
+    expect(await screen.findByRole('heading', { level: 1, name: /연결과 안전/ })).toBeInTheDocument()
+    expect((await screen.findAllByLabelText(/실측/))[0]).toHaveValue('')
+  })
+
+  it('sends an unknown bench item to the roadmap home', async () => {
+    renderRoute('/bench/no-such-item')
     expect(await screen.findByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeInTheDocument()
   })
 })
