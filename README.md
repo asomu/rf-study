@@ -34,7 +34,9 @@ Notion may be used later as a dashboard, mirror, or idea capture surface, but pr
 - [Idea Backlog](docs/IDEA_BACKLOG.md): new ideas before they are accepted into the roadmap
 - [Decisions](docs/DECISIONS.md): important project and technical decisions
 - [Session Log](docs/SESSION_LOG.md): work-session history and next actions
-- [M1 Learner-content Review](docs/m1/M1-CONTENT-REVIEW.md): learner suitability, explanation-material coverage, boundaries, and next content ideas
+- [M1 Spec](docs/m1/SPEC.md): learning contract, content, model, UI, and acceptance for `GSM Burst/PvT Lab`
+- [M1 Review](docs/m1/REVIEW.md): review checklist, fixed findings, learner-content assessment, and follow-ups
+- [Module templates](docs/templates/): `SPEC.md` and `REVIEW.md` to copy for each new module
 
 ## Current Status
 
@@ -50,6 +52,15 @@ Notion may be used later as a dashboard, mirror, or idea capture surface, but pr
 3. Ideas move to `docs/ROADMAP.md` only after they match the learning goal, implementation timing, and current phase.
 4. Progress is tracked in three dimensions: RF competency, app feature state, and session history.
 5. Decisions that change direction are recorded in `docs/DECISIONS.md`.
+
+## Module Workflow
+
+Each module keeps exactly two documents in `docs/m<n>/`, copied from `docs/templates/`:
+
+1. `SPEC.md` — write before building: learning contract, content, model, UI deltas, acceptance.
+2. `REVIEW.md` — fill once the module is feature-complete: checklist, findings fixed, follow-ups.
+
+Build against the spec, then run one independent review before marking the module Validated. Record session history in `docs/SESSION_LOG.md` and state in `docs/PROGRESS.md`; no separate plan or summary files.
 
 ## Next Actions
 

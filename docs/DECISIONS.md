@@ -1,6 +1,6 @@
 # Decisions
 
-Last updated: 2026-07-15
+Last updated: 2026-10-25
 
 This file records decisions that shape project direction. Keep entries short and useful.
 
@@ -129,3 +129,19 @@ An unlabeled or partially copied mask can teach incorrect conformance judgment e
 Impact:
 
 The UI consistently says simulated/educational, uses nominal plateau 0 dBc as its declared reference, and avoids conformance verdict language.
+
+## D-20261025-01 - One Spec and One Review per Module
+
+Status: Accepted
+
+Decision:
+
+Drop the GSD `.planning/` phase artifacts (plan, summary, UI spec, UI review, final review). Each module keeps `docs/m<n>/SPEC.md` and `docs/m<n>/REVIEW.md`, created from `docs/templates/`.
+
+Reason:
+
+M1 produced about eight documents for one module, split across `.planning/` and `docs/`, while README names `docs/` as the source of truth. For a solo learning project the upkeep outweighed the value. The independent review step did catch real defects, so it stays as a checklist.
+
+Impact:
+
+M1 content was merged into `docs/m1/SPEC.md` and `docs/m1/REVIEW.md`. A UI spec or visual audit is written only when a module changes the UI substantially.

@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-07-15
+Last updated: 2026-10-25
 
 Progress is tracked in three dimensions:
 
@@ -50,7 +50,7 @@ Initial values are working baselines and should be revised as evidence is collec
 
 | Feature | State | Notes |
 | --- | --- | --- |
-| Documentation system | Validated | Specs, phase summary, audit, decisions, and progress are repo-tracked |
+| Documentation system | Validated | Core docs plus one `SPEC.md` and one `REVIEW.md` per module |
 | GSM Burst/PvT Lab | Validated | Learn → Lab → Challenge → Review flow passes unit, E2E, responsive, and accessibility checks |
 | GSM Phase Error Lab | Idea | Candidate second GSM module |
 | EDGE IQ/EVM Lab | Idea | Candidate EDGE module |

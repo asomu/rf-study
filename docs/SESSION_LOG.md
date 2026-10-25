@@ -1,6 +1,6 @@
 # Session Log
 
-Last updated: 2026-07-15
+Last updated: 2026-10-25
 
 Use this log to preserve continuity between work sessions.
 
@@ -57,7 +57,7 @@ Progress:
 - Added a deterministic educational PvT model, mask evaluation, six diagnostic cases, and local learning evidence.
 - Added hierarchy, control-sequence, failure-atlas, source-reference, and accessible chart/table explanations.
 - Added unit/component tests, Playwright flow/responsive/print tests, and axe accessibility checks.
-- Completed a 6-pillar GSD UI review with no blocking findings.
+- Completed a six-pillar UI review with no blocking findings.
 
 Decisions:
 
@@ -73,3 +73,29 @@ Next actions:
 
 - Gather learner evidence and RF engineer feedback.
 - Decide whether M2 should be Phase Error or an M1 real-measurement import extension.
+
+## 2026-10-25 - Status Check and Documentation Slimming
+
+Goal:
+
+- Check project state after a three-month pause and lighten the documentation workflow.
+
+Progress:
+
+- Confirmed locally: 14/14 unit tests, 4/4 E2E, and build pass.
+- Found the 2026-07-15 GitHub Actions deploy failed at the E2E step; logs expired, so the cause is unknown.
+- Published the `dist` build as a private Claude Artifact.
+- Merged `.planning/` GSD artifacts and the three `docs/m1/M1-*` files into `docs/m1/SPEC.md` and `docs/m1/REVIEW.md`; added `docs/templates/`.
+
+Decisions:
+
+- D-20261025-01: one spec and one review per module.
+
+Blocked:
+
+- None.
+
+Next actions:
+
+- Re-run the deploy workflow to capture the CI E2E failure.
+- Scope M2 using `docs/templates/SPEC.md`.
