@@ -110,4 +110,6 @@ Blocked:
 Next actions:
 - Pick the first roadmap item to fill and set it to `building` in `roadmap.ts`.
 - Extend axe to post-interaction states (Lab after a run, Review with evidence).
+- Instrument mastery is the current focus: an SG + SA thru bench series (N5182B + N9020B, cable + pad, run from another PC) was proposed and awaits approval.
+- After the SG + SA series: waveforms on SG and SA (generation, measurement, signal types and principles). Logged in `docs/IDEA_BACKLOG.md`.
 - Start M1 learner evidence: challenges and the 90-second teach-back.
