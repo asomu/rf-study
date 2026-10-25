@@ -82,6 +82,17 @@ describe('RF Study Lab bench practice', () => {
     expect((await screen.findAllByLabelText(/실측/))[0]).toHaveValue('')
   })
 
+  it('opens bench item 02 and keeps its records apart from item 01', async () => {
+    const user = userEvent.setup()
+    const first = renderRoute('/bench/connection-safety')
+    await user.type((await screen.findAllByLabelText(/실측/))[0], 'item-one')
+    first.unmount()
+
+    renderRoute('/bench/cw-marker')
+    expect(await screen.findByRole('heading', { level: 1, name: /CW 출력과 marker/ })).toBeInTheDocument()
+    expect((await screen.findAllByLabelText(/실측/))[0]).toHaveValue('')
+  })
+
   it('sends an unknown bench item to the roadmap home', async () => {
     renderRoute('/bench/no-such-item')
     expect(await screen.findByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeInTheDocument()

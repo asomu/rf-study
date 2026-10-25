@@ -5,7 +5,7 @@ Live mode imports PyVISA only when it is actually used, so tests and dry
 runs work on machines without it.
 """
 
-from typing import Callable, Dict, List, Optional
+from typing import Callable, Dict, List, Optional, Tuple
 
 SA_MAX_SAFE_INPUT_DBM = 30.0  # N9020B Specifications Guide 9018-04846, average total power
 PRACTICE_LIMIT_DBM = 0.0      # docs/bench/SPEC.md safety contract
@@ -109,6 +109,39 @@ def open_pair(live: bool, sg_address: Optional[str], sa_address: Optional[str],
     if not sg_address or not sa_address:
         raise SystemExit('--live needs both --sg and --sa VISA addresses')
     return {'sg': Instrument('SG', PyVisaTransport(sg_address)), 'sa': Instrument('SA', PyVisaTransport(sa_address))}
+
+
+def arm_sg(sg: Instrument, limit_dbm: float) -> None:
+    """RF off, then set and enable the user power limit before anything can turn RF on."""
+    sg.write(':OUTPut:STATe OFF')
+    sg.write(f':SOURce:POWer:USER:MAX {limit_dbm} dBm')
+    sg.write(':SOURce:POWer:USER:ENABle ON')
+    sg.check_errors()
+
+
+def set_cw(sg: Instrument, freq_hz: float, level_dbm: float) -> None:
+    """Pure CW: modulation off, frequency and level set, errors checked. RF stays as it was."""
+    sg.write(':OUTPut:MODulation:STATe OFF')
+    sg.write(f':SOURce:FREQuency:CW {freq_hz}')
+    sg.write(f':SOURce:POWer:LEVel:IMMediate:AMPLitude {level_dbm} dBm')
+    sg.check_errors()
+
+
+def single_sweep(sa: Instrument) -> None:
+    """Take one sweep and wait for it to finish before anything reads the trace."""
+    sa.write(':INITiate:IMMediate')
+    sa.wait()
+
+
+def peak(sa: Instrument) -> Tuple[str, str]:
+    """Peak search on marker 1 and return (X, Y) as the instrument reported them."""
+    sa.write(':CALCulate:MARKer1:MAXimum')
+    return sa.query(':CALCulate:MARKer1:X?'), sa.query(':CALCulate:MARKer1:Y?')
+
+
+def format_table(rows: List[Tuple[str, str]]) -> str:
+    width = max(len(name) for name, _ in rows)
+    return '\n'.join(f'{name.ljust(width)}  {value}' for name, value in rows)
 
 
 def check_practice_level(level_dbm: float, limit_dbm: float) -> None:

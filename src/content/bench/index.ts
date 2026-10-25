@@ -1,4 +1,5 @@
 import { CONNECTION_SAFETY } from './connection-safety'
+import { CW_MARKER } from './cw-marker'
 import type { BenchItem, BenchSourceId } from './types'
 
 export type { BenchItem } from './types'
@@ -10,7 +11,7 @@ export const BENCH_SOURCES: Record<BenchSourceId, string> = {
   'mxa-spec': 'Keysight N9020B MXA Specifications Guide, 9018-04846',
 }
 
-export const BENCH_ITEMS: BenchItem[] = [CONNECTION_SAFETY]
+export const BENCH_ITEMS: BenchItem[] = [CONNECTION_SAFETY, CW_MARKER]
 
 export function getBenchItem(id: string | undefined): BenchItem | undefined {
   return BENCH_ITEMS.find((item) => item.id === id)

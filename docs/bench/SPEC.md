@@ -71,7 +71,7 @@ Each item's SCPI table cites one of these. A command not found in them is marked
 12. 변조 신호 (options permitting)
 13. SCPI 자동화 패턴
 
-Items are built one at a time, after the previous one has been practised.
+Items are built one at a time. Since 2026-10-25 the learner prepares material ahead of bench time: items may be built before earlier ones are practised, and practice results come back later through the record fields.
 
 ## 7. Acceptance per Item
 

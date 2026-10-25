@@ -131,7 +131,7 @@ export const ROADMAP_TRACKS: RoadmapTrack[] = [
     layer: 'bench',
     items: [
       { id: 'connection-safety', title: '연결과 안전', status: 'ready', origin: 'wiki', group: SG_SA, href: '/bench/connection-safety' },
-      planned('cw-marker', 'CW 출력과 marker', 'wiki', SG_SA),
+      { id: 'cw-marker', title: 'CW 출력과 marker', status: 'ready', origin: 'wiki', group: SG_SA, href: '/bench/cw-marker' },
       planned('sa-axes', 'SA 기본 축: center · span · ref level · scale', 'wiki', SG_SA),
       planned('rbw-vbw-noise', 'RBW · VBW · noise floor · sweep time', 'wiki', SG_SA),
       planned('attenuation-overload', '감쇠기 · preamp · 과입력', 'wiki', SG_SA),
