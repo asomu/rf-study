@@ -19,19 +19,19 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="app-shell">
-      <aside className="nav-rail" aria-label="M1 학습 단계">
+      <aside className="nav-rail" aria-label="GSM Burst PvT 학습 단계">
         <div className="brand-lockup">
           <span className="brand-mark" aria-hidden="true">RF</span>
           <div>
             <strong>STUDY LAB</strong>
-            <small>FIELD NOTE / 001</small>
+            <small>FIELD NOTE</small>
           </div>
         </div>
 
         <Link to="/" className="rail-home-link"><span aria-hidden="true">←</span> <span className="rail-home-text">로드맵</span></Link>
 
         <div className="module-stamp">
-          <span>MODULE 01</span>
+          <span>PRACTICE LAB</span>
           <strong>GSM BURST</strong>
           <em>POWER vs TIME</em>
         </div>

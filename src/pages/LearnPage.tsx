@@ -19,7 +19,7 @@ export function LearnPage() {
     <div className="page learn-page">
       <section className="page-hero learn-hero">
         <div className="hero-copy">
-          <span className="kicker">FIELD NOTE 001 / TIME DOMAIN</span>
+          <span className="kicker">FIELD NOTE / TIME DOMAIN</span>
           <h1>BURST를<br /><em>읽는 법.</em></h1>
           <p>Mask의 선을 외우기 전에, 어떤 제어가 어떤 파형을 만들고 왜 그 위치에서 실패하는지 연결합니다.</p>
           <div className="hero-actions">

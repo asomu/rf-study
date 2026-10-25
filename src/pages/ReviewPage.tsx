@@ -15,7 +15,7 @@ export function ReviewPage() {
   return (
     <div className="page review-page">
       <header className="review-header">
-        <div><span className="kicker">FIELD EVIDENCE / M1</span><h1>설명할 수 있어야<br /><em>완료입니다.</em></h1></div>
+        <div><span className="kicker">FIELD EVIDENCE / GSM PvT</span><h1>설명할 수 있어야<br /><em>완료입니다.</em></h1></div>
         <p>활동 횟수가 아니라 예측, 판정, 진단, teach-back의 증거를 따로 확인합니다.</p>
       </header>
 
@@ -102,8 +102,8 @@ export function ReviewPage() {
       )}
 
       <section className="next-module">
-        <span>NEXT SIGNAL</span><h2>M2 · GSM Phase Error Lab</h2><p>Phase trajectory와 modulation quality를 같은 예측–진단 구조로 연결합니다.</p>
-        <em>LOCKED · M1 REVIEW REQUIRED</em>
+        <span>NEXT SIGNAL</span><h2>GSM phase error와 frequency error</h2><p>Phase trajectory와 modulation quality를 같은 예측–진단 구조로 연결할 후보 항목입니다.</p>
+        <Link className="next-module-link" to="/">로드맵에서 다음 항목 보기 →</Link>
       </section>
     </div>
   )

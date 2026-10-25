@@ -32,7 +32,7 @@ export const ROADMAP_LAYERS: { id: RoadmapLayer; label: string }[] = [
   { id: 'later', label: '후순위 후보' },
 ]
 
-const M1_HREF = '/modules/gsm-pvt/learn'
+const GSM_PVT_LAB_HREF = '/modules/gsm-pvt/learn'
 
 const planned = (id: string, title: string, origin: RoadmapItemOrigin, group?: string): RoadmapItem => ({ id, title, status: 'planned', origin, group })
 
@@ -80,7 +80,7 @@ export const ROADMAP_TRACKS: RoadmapTrack[] = [
       planned('ue-spec-vs-module', '3GPP UE 규격과 PAMiD 목표 스펙의 차이', 'wiki', '공통'),
       planned('gsm-arfcn', 'ARFCN과 200 kHz carrier', 'wiki', 'GSM'),
       planned('gsm-tdma', 'TDMA frame과 timeslot', 'wiki', 'GSM'),
-      { id: 'gsm-normal-burst', title: 'Normal burst 구조와 PvT (M1)', status: 'ready', origin: 'wiki', group: 'GSM', href: M1_HREF },
+      { id: 'gsm-normal-burst', title: 'Normal burst 구조와 PvT', status: 'ready', origin: 'wiki', group: 'GSM', href: GSM_PVT_LAB_HREF },
       planned('gsm-gmsk', 'GMSK constant envelope', 'wiki', 'GSM'),
       planned('edge-8psk', 'EDGE 8PSK가 PA에 요구하는 것', 'wiki', 'GSM'),
       planned('gsm-multislot', 'Multislot과 PA duty · 전류 펄스', 'wiki', 'GSM'),
@@ -115,7 +115,7 @@ export const ROADMAP_TRACKS: RoadmapTrack[] = [
       planned('spurious', 'Spurious', 'wiki'),
       planned('tx-noise-desense', 'Tx noise와 Rx desense', 'wiki'),
       planned('gain-ripple', 'Gain ripple과 band-edge 성능', 'wiki'),
-      { id: 'switching-transient', title: 'Switching transient와 PvT (M1)', status: 'ready', origin: 'wiki', href: M1_HREF },
+      { id: 'switching-transient', title: 'Switching transient와 PvT', status: 'ready', origin: 'wiki', href: GSM_PVT_LAB_HREF },
       planned('state-errors', 'Mode · MIPI · calibration 오류를 증명하는 법', 'wiki'),
       planned('noise-figure', 'Noise figure 측정', 'new'),
       planned('lna-linearity', 'LNA gain · IIP3 · P1dB', 'new'),

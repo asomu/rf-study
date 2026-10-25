@@ -31,7 +31,7 @@ describe('RF Study Lab roadmap home', () => {
     expect(readyItems.length).toBeGreaterThan(0)
     for (const item of readyItems) {
       const view = renderRoute(item.href!)
-      expect(await screen.findByLabelText('M1 학습 단계')).toBeInTheDocument()
+      expect(await screen.findByLabelText('GSM Burst PvT 학습 단계')).toBeInTheDocument()
       view.unmount()
     }
   })

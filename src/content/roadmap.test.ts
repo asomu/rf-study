@@ -20,7 +20,7 @@ describe('roadmap data', () => {
     }
   })
 
-  it('places the M1 lab in the GSM track and the measurement track', () => {
+  it('places the GSM PvT lab in the GSM track and the measurement track', () => {
     const m1Tracks = ROADMAP_TRACKS.filter((track) => track.items.some((item) => item.href?.startsWith('/modules/gsm-pvt/')))
     expect(m1Tracks.map((track) => track.id)).toEqual(['signals', 'measurements'])
   })
