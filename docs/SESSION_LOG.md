@@ -101,13 +101,13 @@ Decisions:
 
 - CI run 40158505500 passed unit, E2E, build and smoke for the first time, then stopped at "Configure GitHub Pages": Pages is not enabled on `asomu/rf-study` (API 404).
 
+- With the owner's approval (public site is fine), enabled Pages with source "GitHub Actions". Run 40160392636 passed and deployed; https://asomu.github.io/rf-study/ serves the roadmap home and M1 with no console errors.
+
 Blocked:
 
-- GitHub Pages is not enabled for the repository. Enabling it (Settings → Pages → Source: GitHub Actions) is a repository setting the owner must approve.
+- None.
 
 Next actions:
-
-- Enable Pages with source "GitHub Actions", then re-run the workflow.
 - Pick the first roadmap item to fill and set it to `building` in `roadmap.ts`.
 - Extend axe to post-interaction states (Lab after a run, Review with evidence).
 - Start M1 learner evidence: challenges and the 90-second teach-back.

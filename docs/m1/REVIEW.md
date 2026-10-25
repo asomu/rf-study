@@ -39,7 +39,7 @@
 ### Deployable output
 
 - [x] `npm run test:smoke` passes against production `dist` on all four hash routes
-- [ ] GitHub Actions deploy succeeds — failed 2026-07-15 and 2026-10-25 at the E2E color-contrast check; fix pushed 2026-10-25
+- [x] GitHub Actions deploy succeeds — first success 2026-10-25 after the contrast fix and enabling Pages; live at https://asomu.github.io/rf-study/
 
 ### Content and boundary
 

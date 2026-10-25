@@ -45,7 +45,7 @@ npm run dev
 
 - Roadmap: 9 tracks, 78 items (71 core, 7 deferred); 2 ready, both served by M1
 - M1 GSM Burst/PvT Lab: validated locally
-- Deploy: GitHub Pages via GitHub Actions on push to `main`
+- Deploy: https://asomu.github.io/rf-study/ (public), via GitHub Actions on push to `main`
 
 ## Working Rules
 

@@ -15,7 +15,7 @@ Progress is tracked in three places:
 | Roadmap items ready | 2 / 71 core (+7 deferred) |
 | Modules built | M1 GSM Burst / PvT Lab |
 | M1 learner evidence | Not started (challenges and teach-back pending) |
-| Deploy | CI tests pass; deploy blocked because GitHub Pages is not enabled on the repository |
+| Deploy | Live at https://asomu.github.io/rf-study/ (public), deployed by GitHub Actions on push to `main` |
 
 ## RF Competency Scale
 
