@@ -1,93 +1,63 @@
 # Roadmap
 
-Last updated: 2026-07-15
+Last updated: 2026-10-25
 
-## Roadmap Rule
+## Goal
 
-The roadmap connects RF growth goals to app implementation. A feature should be added only when it supports a learning outcome or a practical RF workflow.
+Build the RF knowledge needed to write better RF test programs, test infrastructure, data processing, and report automation for PAMiD / FEM / PA / LNA modules.
 
-New ideas start in `docs/IDEA_BACKLOG.md`. Accepted ideas move here when they are ready for planning or implementation.
+The guiding question for every item: **what will I do better in a test program once I understand this?** That puts weight on what each measurement means, how it is configured and judged, and how results become data and reports, more than on RF circuit design.
 
-## Phase 1: Multi-Mode Fundamentals, Months 1-6
+## How the Roadmap Works
 
-Goal: build strong principle-based understanding for GSM/EDGE/LTE/NR measurements and mode differences.
+- The item list lives in [`src/content/roadmap.ts`](../src/content/roadmap.ts). It is the single source of truth; the home page (`#/`) renders it directly. Do not copy the list into this file.
+- Each item has a status: `planned` → `building` → `ready`. A `ready` item has an `href` to its learning page.
+- Each item has an origin: `wiki` means the topic was picked from the rf-wiki item list; `new` means it was added for test-program work. In both cases the content is written fresh here. rf-wiki text, models and code are not reused.
+- Items are filled one at a time. Bundling several items into one module (like M1) is fine when they share a model.
 
-Learning outcomes:
+## Tracks
 
-- Explain GSM burst timing, PvT, Phase Error, and Frequency Error.
-- Explain EDGE 8-PSK, EVM, AM-PM distortion, and ORFS.
-- Explain LTE/NR EVM, ACLR, SEM, PAPR, RB allocation, and MPR/A-MPR at a practical level.
-- Compare mode-specific measurement requirements.
+Lower layers are the foundation for upper layers. Counts are as of 2026-10-25.
 
-Product outcomes:
+| # | Track | Question | Layer | Items | New |
+| ---: | --- | --- | --- | ---: | ---: |
+| 1 | RF 기초 언어 | 측정값의 단위와 기준면이 무엇인가 | 기초 | 5 | 0 |
+| 2 | 모듈 해부 | 테스트하는 DUT 안에 무엇이 있나 | 기초 | 9 | 1 |
+| 3 | 신호와 표준 | 측정 조건(band · RB · modulation)은 왜 그렇게 정해지나 | 신호 · 측정 | 20 | 0 |
+| 4 | 측정 항목 | 무엇을 보고, 어떻게 재고, 언제 fail인가 | 신호 · 측정 | 14 | 4 |
+| 5 | 계측기와 자동화 | 장비를 어떻게 설정하고 빠르고 정확하게 읽나 | 장비 · 판정 | 8 | 2 |
+| 6 | 판정과 신뢰성 | 이 값을 믿고 PASS/FAIL을 내려도 되나 | 장비 · 판정 | 7 | 2 |
+| 7 | 데이터와 리포트 | 결과를 어떤 구조로 저장하고 어떻게 보여주나 | 데이터 · 생산 | 5 | 5 |
+| 8 | 생산 테스트 최적화 | 시간을 줄이면서 품질을 지키려면 | 데이터 · 생산 | 3 | 3 |
+| 9 | 수신기와 프로토콜 | 관심 분야, 1–8번 트랙 뒤에 다룰 후보 | 후순위 후보 | 7 | 0 |
 
-- Documentation foundation
-- GSM Burst/PvT Lab
-- GSM Phase Error Lab
-- EDGE IQ/EVM Lab
-- Initial LTE/NR measurement comparison notes
+Total 78 items: 71 core, 7 deferred. Ready: 2 (both served by M1).
 
-## Phase 2: Multi-Mode Integrated Design, Months 7-12
+## Recommended Order
 
-Goal: connect mode-specific measurements to PA/FEM design trade-offs and multi-mode control.
+1. Tracks 1–2: units, reference planes, and what is inside the DUT.
+2. Tracks 3–4: why test conditions are set the way they are, and what each measurement item means.
+3. Tracks 5–6: instruments, automation, and whether a result can be trusted.
+4. Tracks 7–8: data, reports, and production test time.
+5. Track 9 only after 1–8, or earlier when curiosity is worth the detour.
 
-Learning outcomes:
+Track 7 is closest to daily work and may be pulled forward. The order is a default, not a gate.
 
-- Compare GSM saturated operation, EDGE backed-off linear operation, and LTE/NR APT/ET operation.
-- Explain PA bias, matching, efficiency, linearity, thermal behavior, and harmonic management.
-- Explain mode switching logic through GPIO/MIPI, state machines, sequencing, and glitch prevention.
-- Understand EN-DC, DSDS/DSDA, coexistence, and resource sharing issues.
+## Built Modules
 
-Product outcomes:
+| Module | Roadmap items | Status | Docs |
+| --- | --- | --- | --- |
+| M1 GSM Burst / PvT Lab | `gsm-normal-burst` (track 3), `switching-transient` (track 4) | Ready | [SPEC](m1/SPEC.md) · [REVIEW](m1/REVIEW.md) |
 
-- Mode Switching Lab
-- PA Bias/Linearity Lab
-- Multi-mode coexistence case studies
-- Production test flow optimizer concept
+## Filling the Next Item
 
-## Phase 3: Advanced Multi-Mode Innovation, Months 13-18
+1. Pick an item on the home page and set its status to `building` in `roadmap.ts`.
+2. Decide its size: a short explanation page, or a lab module with a model. A lab module copies `docs/templates/SPEC.md` and `REVIEW.md` into `docs/m<n>/`.
+3. Build, test, and review against the spec.
+4. Set the status to `ready` with an `href`, and record the session in `docs/SESSION_LOG.md`.
 
-Goal: develop senior-level architectural judgment and future-facing RF system thinking.
+## Boundaries
 
-Learning outcomes:
-
-- Propose architecture options for LTE/NR-only and GSM sunset scenarios.
-- Explain AI/ML use cases for DPD training, impedance tuning, thermal compensation, and yield prediction.
-- Compare reconfigurable networks, ultra-wideband designs, and software-defined matching.
-- Teach multi-mode RF frontend architecture to junior engineers.
-
-Product outcomes:
-
-- Advanced architecture notes
-- Thermal/yield analysis concepts
-- Teaching mode improvements
-- Final portfolio-style RF learning map
-
-## First 4-Week Execution Plan
-
-| Week | Focus | Deliverables |
-| --- | --- | --- |
-| 1 | Documentation system and M1 spec | Core docs, M1 acceptance criteria, simulator model notes |
-| 2 | Web app foundation | Vite/React/TypeScript app, layout shell, simulator state model |
-| 3 | GSM Burst/PvT simulator | Time-domain graph, educational PvT mask, pass/fail evaluation |
-| 4 | Parameter challenge and review | Challenge scenarios, explanation feedback, validation and next-module decision |
-
-## Current Validated Feature
-
-`GSM Burst/PvT Lab`
-
-Purpose:
-
-- Make GSM burst timing visible.
-- Show how ramp timing, settling, overshoot, and noise affect PvT mask pass/fail.
-- Train principle understanding through parameter challenges.
-
-V1 scope:
-
-- Educational approximation
-- Single-page lab UI
-- No backend
-- No real measurement data import
-- No full 3GPP conformance implementation
-
-Validation completed on 2026-07-15. The next candidate vertical slice is `GSM Phase Error Lab`; it remains an idea until its learning contract and model boundary are reviewed.
+- Educational models stay labelled as approximations; no screen issues a conformance verdict.
+- No backend. Progress stays in the browser.
+- Official 3GPP numeric overlays need pinned release, version, section, band, power class, and measurement setup first.

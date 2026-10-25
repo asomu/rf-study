@@ -74,7 +74,7 @@ Next actions:
 - Gather learner evidence and RF engineer feedback.
 - Decide whether M2 should be Phase Error or an M1 real-measurement import extension.
 
-## 2026-10-25 - Status Check and Documentation Slimming
+## 2026-10-25 - Status Check, Documentation Slimming, Roadmap Home
 
 Goal:
 
@@ -87,15 +87,22 @@ Progress:
 - Published the `dist` build as a private Claude Artifact.
 - Merged `.planning/` GSD artifacts and the three `docs/m1/M1-*` files into `docs/m1/SPEC.md` and `docs/m1/REVIEW.md`; added `docs/templates/`.
 
+- Pushed to origin. The re-run deploy failed at E2E: axe `color-contrast` on Learn (15 elements, e.g. `.section-number`, `.cause-header`, `.tail`) and Lab. Passes locally.
+- Reviewed rf-wiki (96 items) as a topic inventory.
+- Rebuilt the roadmap as nine tracks (78 items) in `src/content/roadmap.ts` and added the roadmap home at `#/`; M1 routes unchanged, with a back link to the roadmap.
+- Unit 23/23 and E2E 5/5 pass locally.
+
 Decisions:
 
 - D-20261025-01: one spec and one review per module.
+- D-20261025-02: nine-track roadmap with a home map; rf-wiki contributes topic names only.
 
 Blocked:
 
-- None.
+- GitHub Pages deploy, until the CI color-contrast failure is fixed.
 
 Next actions:
 
-- Re-run the deploy workflow to capture the CI E2E failure.
-- Scope M2 using `docs/templates/SPEC.md`.
+- Fix the CI color-contrast failure so Pages deploys. Some colors look like real low contrast (for example `.section-number` #b3a996 on #dcd3c0), not only timing.
+- Pick the first roadmap item to fill and set it to `building` in `roadmap.ts`.
+- Start M1 learner evidence: challenges and the 90-second teach-back.

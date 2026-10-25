@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import App from './App'
+import { ROADMAP_TRACKS } from './content/roadmap'
 import { DEFAULT_PARAMETERS } from './domain/pvt/profile'
 import { ProgressProvider } from './state/progress'
 
@@ -13,6 +14,40 @@ function renderRoute(route: string) {
     </MemoryRouter>,
   )
 }
+
+describe('RF Study Lab roadmap home', () => {
+  beforeEach(() => window.localStorage.clear())
+
+  it('shows every roadmap track on the home page', async () => {
+    renderRoute('/')
+    expect(await screen.findByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeInTheDocument()
+    for (const track of ROADMAP_TRACKS) {
+      expect(screen.getByRole('heading', { level: 2, name: new RegExp(track.title) })).toBeInTheDocument()
+    }
+  })
+
+  it('opens each ready roadmap item as a real module page', async () => {
+    const readyItems = ROADMAP_TRACKS.flatMap((track) => track.items).filter((item) => item.status === 'ready')
+    expect(readyItems.length).toBeGreaterThan(0)
+    for (const item of readyItems) {
+      const view = renderRoute(item.href!)
+      expect(await screen.findByLabelText('M1 학습 단계')).toBeInTheDocument()
+      view.unmount()
+    }
+  })
+
+  it('sends unknown routes to the roadmap home', async () => {
+    renderRoute('/no-such-page')
+    expect(await screen.findByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeInTheDocument()
+  })
+
+  it('links from the module shell back to the roadmap', async () => {
+    const user = userEvent.setup()
+    renderRoute('/modules/gsm-pvt/learn')
+    await user.click(await screen.findByRole('link', { name: /로드맵/ }))
+    expect(await screen.findByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeInTheDocument()
+  })
+})
 
 describe('RF Study Lab learning flow', () => {
   beforeEach(() => window.localStorage.clear())

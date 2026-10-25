@@ -2,11 +2,20 @@
 
 Last updated: 2026-10-25
 
-Progress is tracked in three dimensions:
+Progress is tracked in three places:
 
-- RF competency
-- App feature state
-- Session history
+- **Roadmap items** — build status per item lives in [`src/content/roadmap.ts`](../src/content/roadmap.ts) and shows on the home page.
+- **RF competency** — self-assessed level per track, below.
+- **Sessions** — what happened and what is next, in [SESSION_LOG.md](SESSION_LOG.md).
+
+## Current Snapshot
+
+| Measure | Value |
+| --- | --- |
+| Roadmap items ready | 2 / 71 core (+7 deferred) |
+| Modules built | M1 GSM Burst / PvT Lab |
+| M1 learner evidence | Not started (challenges and teach-back pending) |
+| Deploy | GitHub Pages blocked: CI E2E fails on color-contrast in Learn/Lab |
 
 ## RF Competency Scale
 
@@ -15,25 +24,25 @@ Progress is tracked in three dimensions:
 | 0 | Not studied |
 | 1 | Understands terms |
 | 2 | Can explain principle |
-| 3 | Can measure and judge |
-| 4 | Can explain design trade-offs |
-| 5 | Can teach and lead others |
+| 3 | Can configure the measurement and judge the result |
+| 4 | Can design the test and data flow around it |
+| 5 | Can teach it and review others' test programs |
 
-## RF Competency Tracker
+## RF Competency by Track
 
-Initial values are working baselines and should be revised as evidence is collected.
+Levels are self-assessed. Fill in the current level the first time a track is studied, and update it with evidence.
 
-| Competency | Current | Target | Evidence / next proof |
+| Track | Current | Target | Evidence / next proof |
 | --- | ---: | ---: | --- |
-| GSM burst timing and PvT | 2 | 5 | Build and explain `GSM Burst/PvT Lab` |
-| GSM Phase Error and Frequency Error | 1 | 5 | Create phase trajectory explanation and examples |
-| EDGE 8-PSK and EVM | 1 | 5 | Build constellation/EVM lab |
-| ORFS and spectrum mask behavior | 1 | 4 | Link switching and modulation effects to spectrum plots |
-| LTE/NR EVM, ACLR, SEM | 2 | 5 | Compare measurement items across mode and bandwidth |
-| PAPR, DPD, APT, ET | 1 | 4 | Explain efficiency/linearity trade-offs visually |
-| Mode switching and control sequence | 1 | 4 | Build timing/state-machine visualizer |
-| Production test optimization | 3 | 5 | Draft multi-mode test flow and time-saving strategy |
-| Teaching and communication | 1 | 5 | Produce reusable visual teaching material |
+| 1 RF 기초 언어 | — | 4 | |
+| 2 모듈 해부 | — | 4 | |
+| 3 신호와 표준 | — | 4 | M1 covers GSM normal burst |
+| 4 측정 항목 | — | 5 | M1 covers switching transient / PvT |
+| 5 계측기와 자동화 | — | 5 | |
+| 6 판정과 신뢰성 | — | 5 | |
+| 7 데이터와 리포트 | — | 5 | |
+| 8 생산 테스트 최적화 | — | 4 | |
+| 9 수신기와 프로토콜 | — | 2 | Deferred |
 
 ## App Feature States
 
@@ -41,52 +50,15 @@ Initial values are working baselines and should be revised as evidence is collec
 | --- | --- |
 | Idea | Captured but not accepted into roadmap |
 | Planned | Accepted into roadmap |
-| Spec Ready | Implementation decisions are complete |
 | Building | Implementation is in progress |
 | Validated | Tested and reviewed |
-| Released | Usable as part of the project baseline |
 
 ## App Feature Tracker
 
 | Feature | State | Notes |
 | --- | --- | --- |
 | Documentation system | Validated | Core docs plus one `SPEC.md` and one `REVIEW.md` per module |
-| GSM Burst/PvT Lab | Validated | Learn → Lab → Challenge → Review flow passes unit, E2E, responsive, and accessibility checks |
-| GSM Phase Error Lab | Idea | Candidate second GSM module |
-| EDGE IQ/EVM Lab | Idea | Candidate EDGE module |
-| ORFS/Spectrum Lab | Idea | Candidate spectrum module |
-| LTE/NR ACLR/EVM Lab | Idea | Candidate LTE/NR measurement module |
-| Mode Switching Lab | Idea | Candidate integrated design module |
-| Progress tracking in app | Validated | Local concept, prediction, judgment, diagnosis, challenge, and teach-back evidence |
-
-## Session Progress Template
-
-Use this format in `docs/SESSION_LOG.md`:
-
-```markdown
-## YYYY-MM-DD - Session Title
-
-Goal:
-
-- ...
-
-Progress:
-
-- ...
-
-Decisions:
-
-- ...
-
-New ideas:
-
-- ...
-
-Blocked:
-
-- ...
-
-Next actions:
-
-- ...
-```
+| Roadmap home | Validated | Nine tracks from `roadmap.ts`; unit and E2E covered |
+| GSM Burst/PvT Lab (M1) | Validated | Learn → Lab → Challenge → Review |
+| Progress tracking in app | Validated | Local evidence for M1 only |
+| Per-item learning progress on home | Idea | Home shows build status only |

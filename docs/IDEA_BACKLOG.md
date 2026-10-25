@@ -1,15 +1,8 @@
 # Idea Backlog
 
-Last updated: 2026-07-15
+Last updated: 2026-10-25
 
-This file captures ideas before they become roadmap work.
-
-An idea should move to `docs/ROADMAP.md` only when:
-
-- it supports the 18-month RF growth goal
-- it has a clear learning outcome or practical workflow value
-- it fits the current or next implementation phase
-- it can be tested or reviewed
+Ideas land here first. Accepted topics become items in [`src/content/roadmap.ts`](../src/content/roadmap.ts); this file keeps only what is not on the roadmap yet.
 
 ## Backlog States
 
@@ -17,22 +10,17 @@ An idea should move to `docs/ROADMAP.md` only when:
 | --- | --- |
 | Raw | Captured without evaluation |
 | Shaping | Needs clarification or smaller scope |
-| Candidate | Likely useful and waiting for roadmap timing |
-| Accepted | Moved to roadmap |
+| Candidate | Likely useful and waiting for timing |
 | Parked | Valuable but not near-term |
 
 ## Ideas
 
 | Idea | State | Why it matters | Notes |
 | --- | --- | --- | --- |
-| GSM Phase Error Lab | Candidate | Builds on GSM burst understanding and explains GMSK modulation quality | Likely after `GSM Burst/PvT Lab` |
-| EDGE IQ/EVM Lab | Candidate | Shows why EDGE needs linear PA behavior unlike GSM GMSK | Good visual constellation module |
-| ORFS/Spectrum Lab | Candidate | Connects burst behavior and modulation to spectrum failures | Can reuse GSM/EDGE concepts |
-| LTE/NR ACLR/EVM Lab | Raw | Extends measurement thinking to OFDM-style modes | Keep V1 smaller first |
-| Mode Switching State Machine Lab | Raw | Explains glitch, sequencing, bias settling, and control timing | Strong Phase 2 candidate |
-| Production Test Flow Optimizer | Raw | Connects learning to Mark's strength in automation and production test | Needs app/data scope later |
-| Teaching Mode | Accepted | Helps convert simulator screens into junior-engineer teaching material | M1 print snapshot delivered; future modules should reuse it |
-| Measurement Data Import | Parked | Allows comparison with real CSV/log data | Wait until educational models are stable |
+| Per-item learning progress on home | Candidate | Shows learned vs only built | Needs a progress model shared across modules |
+| Measurement data import | Parked | Compare models with real CSV/log data | Natural fit with track 7 once the data model item exists |
+| Teaching snapshot for every module | Candidate | Reusable explanation material | M1 has a print snapshot; reuse the pattern |
+| Mode switching state-machine lab | Raw | Glitch, sequencing, bias settling | May become a lab for `mipi-rffe` and `gain-mode-bias` |
 
 ## Intake Template
 
@@ -41,9 +29,7 @@ An idea should move to `docs/ROADMAP.md` only when:
 
 State:
 
-Learning outcome:
-
-Practical value:
+Test-program value:
 
 Possible app artifact:
 

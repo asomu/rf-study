@@ -2,9 +2,19 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 const routes = ['learn', 'lab', 'challenge', 'review']
+const pagePaths = ['/#/', ...routes.map((route) => `/#/modules/gsm-pvt/${route}`)]
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => window.localStorage.clear())
+})
+
+test('로드맵 홈에서 M1으로 들어갔다가 다시 돌아온다', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('heading', { level: 1, name: /RF Study Lab/ })).toBeVisible()
+  await page.getByRole('link', { name: /Normal burst 구조와 PvT/ }).click()
+  await expect(page).toHaveURL(/#\/modules\/gsm-pvt\/learn$/)
+  await page.getByRole('link', { name: /로드맵/ }).click()
+  await expect(page.getByRole('heading', { level: 2, name: /데이터와 리포트/ })).toBeVisible()
 })
 
 test('예측에서 진단과 Review 증거까지 같은 세션에 보존한다', async ({ page }) => {
@@ -90,20 +100,20 @@ test('핵심 viewport에서 페이지 수준 가로 넘침이 없다', async ({ 
   }
 
   await page.setViewportSize({ width: 375, height: 812 })
-  for (const route of routes) {
-    await page.goto(`/#/modules/gsm-pvt/${route}`)
+  for (const path of pagePaths) {
+    await page.goto(path)
     await expect(page.locator('#main-content')).toBeVisible()
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
-    expect(overflow, `${route} 모바일 화면의 페이지 가로 넘침`).toBeLessThanOrEqual(0)
+    expect(overflow, `${path} 모바일 화면의 페이지 가로 넘침`).toBeLessThanOrEqual(0)
   }
 })
 
 test('각 학습 화면에 serious 또는 critical 접근성 위반이 없다', async ({ page }) => {
-  for (const route of routes) {
-    await page.goto(`/#/modules/gsm-pvt/${route}`)
+  for (const path of pagePaths) {
+    await page.goto(path)
     await expect(page.locator('#main-content')).toBeVisible()
     const results = await new AxeBuilder({ page }).analyze()
     const major = results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))
-    expect(major, `${route}: ${major.map((item) => item.id).join(', ')}`).toEqual([])
+    expect(major, `${path}: ${major.map((item) => item.id).join(', ')}`).toEqual([])
   }
 })

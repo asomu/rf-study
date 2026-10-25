@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useProgress } from '../state/progress'
 
 const steps = [
@@ -27,6 +27,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <small>FIELD NOTE / 001</small>
           </div>
         </div>
+
+        <Link to="/" className="rail-home-link"><span aria-hidden="true">←</span> <span className="rail-home-text">로드맵</span></Link>
 
         <div className="module-stamp">
           <span>MODULE 01</span>

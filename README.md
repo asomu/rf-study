@@ -1,70 +1,70 @@
 # RF Study Lab
 
-RF Study Lab is a long-running learning and tool-building project for becoming a senior-level RF Frontend Module engineer across GSM/EDGE/LTE/NR mid/high bands.
-
-The project combines three tracks:
-
-- RF learning material
-- Visual simulators and understanding tests
-- Practical RF workflow tools for measurement, judgment, and explanation
+RF Study Lab is a personal learning web app for building the RF knowledge a test-program engineer needs: what each measurement means, how instruments are set up, how results are judged, and how they become data and reports for PAMiD / FEM / PA / LNA modules.
 
 ## Project Goal
 
-Within 18 months, reach an advanced engineer level for Multi-Mode(GSM/EDGE/LTE/NR) Mid/High Band RF Frontend Module work, including the ability to explain, design, troubleshoot, and teach core concepts.
+Write better RF test programs, test infrastructure, data processing, and report automation by understanding the RF behind them.
 
-Initial product direction:
-
-- Web App
-- GSM/EDGE first
-- Simulator-centered learning
+- Static web app (Vite, React, TypeScript), no backend
 - Korean explanations with RF English terms preserved
-- First module: `GSM Burst/PvT Lab`
+- The home page (`#/`) shows the whole roadmap as nine tracks; items are filled one at a time
+- First built module: `GSM Burst/PvT Lab` (M1)
+
+## Run
+
+```bash
+npm install
+npm run dev
+```
+
+| Command | Purpose |
+| --- | --- |
+| `npm run test` | Unit and component tests |
+| `npm run test:e2e` | Browser flow, overflow, and accessibility tests |
+| `npm run check` | Tests plus production build |
+| `npm run test:smoke` | Production `dist` route check |
 
 ## Source Of Truth
 
-Markdown files in this repo are the source of truth.
-
-Notion may be used later as a dashboard, mirror, or idea capture surface, but project decisions, roadmap state, progress, and implementation-ready specs should be reflected back into this repo.
+- Roadmap items and their status: [`src/content/roadmap.ts`](src/content/roadmap.ts)
+- Everything else: Markdown in this repo
 
 ## Document Map
 
-- [Project Map](docs/PROJECT_MAP.md): whole-project map, RF competency map, app feature map, module relationships
-- [Roadmap](docs/ROADMAP.md): 18-month phases and near-term execution plan
-- [Progress](docs/PROGRESS.md): RF competency, app feature, and session progress tracking
-- [Idea Backlog](docs/IDEA_BACKLOG.md): new ideas before they are accepted into the roadmap
-- [Decisions](docs/DECISIONS.md): important project and technical decisions
+- [Roadmap](docs/ROADMAP.md): goal, nine tracks, recommended order, how to fill an item
+- [Project Map](docs/PROJECT_MAP.md): learner context, track map, app and code map
+- [Progress](docs/PROGRESS.md): snapshot, competency by track, feature states
 - [Session Log](docs/SESSION_LOG.md): work-session history and next actions
-- [M1 Spec](docs/m1/SPEC.md): learning contract, content, model, UI, and acceptance for `GSM Burst/PvT Lab`
-- [M1 Review](docs/m1/REVIEW.md): review checklist, fixed findings, learner-content assessment, and follow-ups
+- [Decisions](docs/DECISIONS.md): decisions that changed direction
+- [Idea Backlog](docs/IDEA_BACKLOG.md): ideas not on the roadmap yet
+- [M1 Spec](docs/m1/SPEC.md) · [M1 Review](docs/m1/REVIEW.md): `GSM Burst/PvT Lab`
 - [Module templates](docs/templates/): `SPEC.md` and `REVIEW.md` to copy for each new module
 
 ## Current Status
 
-- Repository status: M1 validated implementation
-- Current phase: Phase 1 - Multi-Mode fundamentals
-- Current focus: use `GSM Burst/PvT Lab` to collect learning evidence and scope M2
-- First validated module: `GSM Burst/PvT Lab`
+- Roadmap: 9 tracks, 78 items (71 core, 7 deferred); 2 ready, both served by M1
+- M1 GSM Burst/PvT Lab: validated locally
+- Deploy: GitHub Pages blocked by a CI color-contrast failure (see Session Log)
 
 ## Working Rules
 
-1. Before implementing a new feature, update or confirm the relevant project document.
-2. New ideas go to `docs/IDEA_BACKLOG.md` first.
-3. Ideas move to `docs/ROADMAP.md` only after they match the learning goal, implementation timing, and current phase.
-4. Progress is tracked in three dimensions: RF competency, app feature state, and session history.
-5. Decisions that change direction are recorded in `docs/DECISIONS.md`.
+1. New ideas go to `docs/IDEA_BACKLOG.md` first; accepted topics become items in `roadmap.ts`.
+2. Fill one roadmap item at a time; set it to `building` when started and `ready` with an `href` when done.
+3. Topics may come from the rf-wiki item list, but content is written fresh here; rf-wiki text, models and code are not reused.
+4. Decisions that change direction go in `docs/DECISIONS.md`; every work session ends with a `docs/SESSION_LOG.md` entry.
 
 ## Module Workflow
 
-Each module keeps exactly two documents in `docs/m<n>/`, copied from `docs/templates/`:
+A roadmap item that needs a model or lab becomes a module with exactly two documents in `docs/m<n>/`, copied from `docs/templates/`:
 
 1. `SPEC.md` — write before building: learning contract, content, model, UI deltas, acceptance.
 2. `REVIEW.md` — fill once the module is feature-complete: checklist, findings fixed, follow-ups.
 
-Build against the spec, then run one independent review before marking the module Validated. Record session history in `docs/SESSION_LOG.md` and state in `docs/PROGRESS.md`; no separate plan or summary files.
+Build against the spec, then run one independent review before marking it ready. Short explanation items do not need a module folder.
 
 ## Next Actions
 
-1. Complete M1 challenges and a 90-second teach-back as learner evidence.
-2. Run a short user review with RF engineers and capture confusing terms or interactions.
-3. Lock the source version/section metadata before adding any numeric specification-reference profile.
-4. Scope `GSM Phase Error Lab` as the next vertical module.
+1. Fix the CI color-contrast failure so GitHub Pages deploys.
+2. Pick the first roadmap item to fill.
+3. Complete M1 challenges and the 90-second teach-back as learner evidence.

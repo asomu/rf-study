@@ -145,3 +145,21 @@ M1 produced about eight documents for one module, split across `.planning/` and 
 Impact:
 
 M1 content was merged into `docs/m1/SPEC.md` and `docs/m1/REVIEW.md`. A UI spec or visual audit is written only when a module changes the UI substantially.
+
+## D-20261025-02 - Roadmap of Nine Tracks With a Home Map
+
+Status: Accepted
+
+Decision:
+
+Replace the 18-month module sequence (M1–M6) with nine tracks aimed at a test-program engineer: RF basics, module anatomy, signals and standards, measurement items, instruments and automation, judgment and reliability, data and reports, production optimization, and a deferred receiver/protocol track. The item list lives in `src/content/roadmap.ts` and the app home (`#/`) renders it. M1 becomes two ready items inside tracks 3 and 4.
+
+Topics were selected from the rf-wiki item list plus new test-program topics. Only the topic list is taken from rf-wiki; every item's content is written fresh here.
+
+Reason:
+
+The learner builds test programs rather than designing RF circuits, and wants to see the whole map while filling items one at a time. A single data file avoids keeping the list in sync across docs and UI.
+
+Impact:
+
+`#/` is the home; unknown routes redirect there. `docs/ROADMAP.md` describes tracks and process but does not duplicate the item list.
