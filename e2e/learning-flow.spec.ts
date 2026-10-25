@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import { BENCH_ITEMS } from '../src/content/bench'
 
 // #main-content is visible while a lazy route still shows its loading fallback,
 // so wait for the fallback to go and the page heading to render before checking the page.
@@ -11,7 +12,11 @@ async function openLoaded(page: Page, path: string) {
 }
 
 const routes = ['learn', 'lab', 'challenge', 'review']
-const pagePaths = ['/#/', '/#/bench/connection-safety', ...routes.map((route) => `/#/modules/gsm-pvt/${route}`)]
+const pagePaths = [
+  '/#/',
+  ...BENCH_ITEMS.map((item) => `/#/bench/${item.id}`),
+  ...routes.map((route) => `/#/modules/gsm-pvt/${route}`),
+]
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => window.localStorage.clear())

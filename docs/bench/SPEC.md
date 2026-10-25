@@ -1,6 +1,6 @@
 # Bench Spec — SG + SA Thru Practice
 
-**Status:** Spec Ready (2026-10-25)
+**Status:** Items 01–13 built (2026-10-25); bench practice pending
 **Bench:** Keysight N5182B MXG (SG) → cable → fixed attenuator → N9020B MXA (SA)
 **Control:** a separate lab PC runs the scripts; this repo only ships them
 **Roadmap:** track 5, group "SG + SA 쓰루 실습"

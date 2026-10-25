@@ -75,7 +75,7 @@ class EveryLabTests(unittest.TestCase):
                 log = []
                 pair = {
                     'sg': Instrument('SG', FakeTransport(log, 'SG')),
-                    'sa': Instrument('SA', FakeTransport(log, 'SA', fail_on_query=4)),
+                    'sa': Instrument('SA', FakeTransport(log, 'SA', fail_on_query=2)),
                 }
                 with mock.patch.object(rfbench.cli, 'open_pair', return_value=pair):
                     with self.assertRaises(RuntimeError):

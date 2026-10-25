@@ -22,6 +22,14 @@ class Transport:
     def query(self, command: str) -> str:
         raise NotImplementedError
 
+    def query_binary_floats(self, command: str) -> List[float]:
+        """IEEE 488.2 definite-length block of 32-bit floats; empty unless a real instrument answers."""
+        self.query(command)
+        return []
+
+    def set_timeout(self, timeout_ms: int) -> None:
+        pass
+
     def close(self) -> None:
         pass
 
@@ -63,6 +71,13 @@ class PyVisaTransport(Transport):
     def query(self, command: str) -> str:
         return self._inst.query(command).strip()
 
+    def query_binary_floats(self, command: str) -> List[float]:
+        # Pair with :FORMat:TRACe:DATA REAL,32 and :FORMat:BORDer SWAPped (little-endian)
+        return list(self._inst.query_binary_values(command, datatype='f', is_big_endian=False))
+
+    def set_timeout(self, timeout_ms: int) -> None:
+        self._inst.timeout = timeout_ms
+
     def close(self) -> None:
         self._inst.close()
         self._rm.close()
@@ -82,6 +97,12 @@ class Instrument:
     def wait(self) -> None:
         """Block until earlier commands finish (*OPC? returns 1)."""
         self.query('*OPC?')
+
+    def query_binary_floats(self, command: str) -> List[float]:
+        return self.transport.query_binary_floats(command)
+
+    def set_timeout(self, timeout_ms: int) -> None:
+        self.transport.set_timeout(timeout_ms)
 
     def drain_errors(self, limit: int = 50) -> List[str]:
         """Read the error queue until it reports +0 and return what was in it."""
@@ -137,6 +158,49 @@ def peak(sa: Instrument) -> Tuple[str, str]:
     """Peak search on marker 1 and return (X, Y) as the instrument reported them."""
     sa.write(':CALCulate:MARKer1:MAXimum')
     return sa.query(':CALCulate:MARKer1:X?'), sa.query(':CALCulate:MARKer1:Y?')
+
+
+def setup_sa(sa: Instrument, center_hz: float, span_hz: float, rbw_hz: Optional[float] = None) -> None:
+    """Single-sweep swept SA with marker 1 on; RBW fixed when given, otherwise Auto."""
+    sa.write(':INITiate:CONTinuous OFF')
+    sa.write(f':SENSe:FREQuency:CENTer {center_hz}')
+    sa.write(f':SENSe:FREQuency:SPAN {span_hz}')
+    if rbw_hz is None:
+        sa.write(':SENSe:BANDwidth:RESolution:AUTO ON')
+    else:
+        sa.write(f':SENSe:BANDwidth:RESolution {rbw_hz}')
+    sa.write(':CALCulate:MARKer1:MODE POSition')
+    sa.check_errors()
+
+
+def level_at(sa: Instrument, freq_hz: float, marker: int = 1) -> str:
+    """Put a marker on a frequency and read its Y value (no peak search)."""
+    sa.write(f':CALCulate:MARKer{marker}:X {freq_hz}')
+    return sa.query(f':CALCulate:MARKer{marker}:Y?')
+
+
+def options(inst: Instrument) -> Optional[set]:
+    """Installed option codes from *OPT?, or None when the reply is a dry-run placeholder."""
+    reply = inst.query('*OPT?').strip().strip('"')
+    if reply.startswith('<dry-run>'):
+        return None
+    return {part.strip().upper() for part in reply.split(',') if part.strip()}
+
+
+def has_any_option(inst: Instrument, codes) -> Optional[bool]:
+    """True/False if any code is installed, or None when unknown (dry run)."""
+    installed = options(inst)
+    if installed is None:
+        return None
+    return bool(installed & {code.upper() for code in codes})
+
+
+def difference(a: str, b: str) -> str:
+    """a - b in dB, or a note when the inputs are dry-run placeholders."""
+    try:
+        return f'{float(a) - float(b):.2f}'
+    except ValueError:
+        return '<needs live readings>'
 
 
 def format_table(rows: List[Tuple[str, str]]) -> str:

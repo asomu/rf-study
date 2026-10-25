@@ -138,5 +138,31 @@ Blocked:
 Next actions:
 
 - Run `python3 -m labs.lab01_connection` (dry-run, then `--live`) on the lab PC and fill the app's record fields.
-- Build bench item 02 "CW 출력과 marker" after item 01 is practised.
+
+## 2026-10-25 - SG + SA Bench Series 02–13
+
+Goal:
+
+- The learner is away from the bench and wants all track 5 material ready before practising.
+
+Progress:
+
+- Built bench items 02–13 (CW/marker, SA axes, RBW/VBW, attenuation/overload, detector/averaging, power accuracy, SG harmonics, phase noise, zero span, trigger/sync, modulated signal, SCPI patterns) with a page and a dry-run script each.
+- Every SCPI command was checked in N5180-90057 (MXG) or N9060-90027 (X-Series SA). Option-dependent parts check `*OPT?`: SA preamp, SG UNW (pulse), SG UNT (AM), SG 656/657 (ARB, front panel only).
+- Notable facts for test programs: SA input overload is not in the SCPI error queue unless `:SYSTem:ERRor:OVERload ON`; External Gain for a pad is entered as a negative value and survives Preset; MXG `*RST` leaves Mod On.
+- Moved shared script steps into `bench/rfbench` and added one safety test that every lab must pass (power limit before RF on, RF off at the end and after a failure, no PyVISA in dry run).
+- E2E now scans all 13 bench pages for axe violations and mobile overflow.
+
+Decisions:
+
+- Material may be prepared ahead of bench practice (bench SPEC §6 updated).
+
+Blocked:
+
+- Remaining track 5 items (VNA, power sensor, DC supply, multi-instrument sync) need the learner's instrument models.
+
+Next actions:
+
+- Practise items 01–13 on the lab bench; paste results back to review.
+- Get instrument models for the remaining track 5 items.
 - Start M1 learner evidence: challenges and the 90-second teach-back.

@@ -1,0 +1,86 @@
+import type { BenchItem } from './types'
+
+export const ZERO_SPAN: BenchItem = {
+  id: 'zero-span',
+  number: 10,
+  title: 'Zero span: 시간 영역 측정',
+  summary: 'Span을 0으로 두면 SA가 한 주파수에 고정된 수신기가 되어 가로축이 시간이 됩니다. Burst 신호의 on/off와 폭을 보는 방법이며, GSM PvT 실습과 직접 이어집니다.',
+  principle: [
+    'Zero span에서는 LO가 움직이지 않고 center 주파수에 고정됩니다. SA는 RBW 필터를 통과한 전력을 시간에 따라 그립니다. 가로축은 sweep time 전체를 나눈 시간입니다.',
+    'RBW 필터는 빠른 변화를 따라가지 못합니다. 대략 rise time ≈ 1/RBW 정도가 걸리므로, 수 µs 단위의 burst edge를 보려면 RBW를 넓게(수 MHz) 둬야 합니다. 대신 noise floor가 올라갑니다.',
+    '반복되는 burst를 화면에 고정하려면 trigger가 필요합니다. Video trigger는 신호 레벨이 정한 값을 넘는 순간 sweep을 시작합니다. External trigger는 다른 장비가 보내는 신호로 시작합니다. Trigger delay로 시작 시점을 앞뒤로 옮깁니다.',
+    'GSM timeslot은 약 577 µs, frame은 약 4.615 ms입니다. MXG pulse 변조(옵션 UNW)로 이와 같은 burst를 만들면, 앱의 GSM Burst/PvT Lab에서 본 파형을 실제 장비 화면으로 볼 수 있습니다.',
+  ],
+  settings: [
+    { name: 'Span 0 Hz', effect: '주파수 고정, 가로축이 시간', defaultValue: '—', pitfall: 'Zero span에서는 RBW Auto와 Sweep Time Auto가 없음. 직접 정해야 함' },
+    { name: 'RBW (zero span)', effect: '시간 해상도와 noise floor', defaultValue: '수동', pitfall: '좁으면 edge가 둥글게 보여 burst 폭과 ramp 시간이 틀리게 읽힘' },
+    { name: 'Sweep Time', effect: '화면 전체 시간 길이', defaultValue: '수동', pitfall: '점 간격 = sweep time ÷ (points − 1). 짧은 edge는 점 사이에 묻힐 수 있음' },
+    { name: 'Trigger Source', effect: 'Free Run, Video, External 등', defaultValue: 'Free Run(IMMediate)', pitfall: 'Free Run이면 burst가 화면에서 계속 흘러감' },
+    { name: 'Video Trigger Level', effect: '이 레벨을 넘을 때 sweep 시작', defaultValue: '—', pitfall: 'noise floor 근처로 두면 잡음에 trigger됨' },
+    { name: 'Trigger Delay', effect: 'trigger 시점 기준으로 앞뒤 이동', defaultValue: '0', pitfall: '음수 delay(pre-trigger)로 edge 앞부분을 봐야 rising edge가 보임' },
+    { name: 'SG Pulse (옵션 UNW)', effect: '내부 pulse로 RF burst 생성', defaultValue: 'OFF', pitfall: 'Pulse 상태만 켜고 Mod On이 아니면 burst가 안 나옴' },
+  ],
+  steps: [
+    {
+      id: 'options',
+      title: 'Pulse 옵션 확인',
+      actions: ['SG에 *OPT?를 보내 UNW가 있는지 확인합니다.'],
+      check: 'UNW가 없으면 4번 단계 대신 "수동 burst"(sweep time 5 s에서 RF On/Off를 손으로 토글)로 진행합니다.',
+      record: { label: 'SG *OPT? 결과 (UNW 유무)' },
+    },
+    {
+      id: 'zero-span-cw',
+      title: 'CW를 zero span으로 보기',
+      actions: ['SG: 1 GHz, −10 dBm CW. SA: Center 1 GHz, Span 0 Hz, RBW 3 MHz, Sweep Time 10 ms.'],
+      check: '가로로 평평한 선이 CW 레벨 높이에 나타납니다. 시간에 따라 변하지 않는 신호이기 때문입니다.',
+      record: { label: 'Zero span에서 trace 레벨', unit: 'dBm', predict: true },
+    },
+    {
+      id: 'burst',
+      title: 'GSM 같은 burst 만들기',
+      actions: [
+        'SG Pulse: Source Internal, Square(또는 Free-Run), Period 4.615 ms, Width 577 µs, Pulse On, Mod On.',
+        'SA Trigger: Video, 레벨은 CW 레벨보다 10 dB 낮게. Trigger Delay −100 µs.',
+      ],
+      check: '화면 왼쪽 근처에서 burst가 시작해 약 577 µs 뒤에 끝나는 사각형이 고정되어 보입니다.',
+      record: { label: 'Burst on 구간 레벨', unit: 'dBm', predict: true },
+    },
+    {
+      id: 'burst-width',
+      title: 'Marker로 burst 폭 재기',
+      actions: [
+        'Sweep Time을 1 ms로 줄입니다. Marker 1을 rising edge 중간, Delta marker를 falling edge 중간에 둡니다.',
+      ],
+      check: 'Delta X가 약 577 µs입니다. Zero span에서 marker X는 시간입니다.',
+      record: { label: 'Burst 폭 (delta X)', unit: 'µs', predict: true },
+    },
+    {
+      id: 'rbw-edge',
+      title: 'RBW가 edge를 둥글게 만드는 것 보기',
+      actions: ['Sweep Time을 50 µs로 두고 rising edge를 확대합니다. RBW를 3 MHz → 100 kHz로 바꿔 봅니다.'],
+      check: 'RBW를 좁히면 edge가 눈에 띄게 느려집니다. 실제 신호가 아니라 측정 필터 때문입니다. PvT 측정 RBW가 규격으로 정해지는 이유입니다.',
+      record: { label: 'RBW 100 kHz에서 edge가 10–90% 오르는 시간', unit: 'µs', predict: true },
+    },
+  ],
+  scpi: [
+    { command: '[:SENSe]:FREQuency:SPAN 0', instrument: 'SA', purpose: 'Zero span', source: 'xsa-scpi' },
+    { command: '[:SENSe]:SWEep:TIME <time>', instrument: 'SA', purpose: '화면 시간 길이 (zero span에서는 Auto 없음)', source: 'xsa-scpi' },
+    { command: ':TRIGger[:SEQuence]:SOURce IMMediate|VIDeo|EXTernal1|...', instrument: 'SA', purpose: 'Swept SA trigger 소스 (측정 이름 없이)', source: 'xsa-scpi' },
+    { command: ':TRIGger[:SEQuence]:VIDeo:LEVel <ampl>', instrument: 'SA', purpose: 'Video trigger 레벨', source: 'xsa-scpi' },
+    { command: ':TRIGger[:SEQuence]:DELay <time>', instrument: 'SA', purpose: 'Trigger delay', source: 'xsa-scpi' },
+    { command: '*OPT?', instrument: 'SG', purpose: 'Pulse 옵션(UNW) 확인', source: 'ieee-488.2' },
+    { command: '[:SOURce]:PULM:SOURce INTernal|EXTernal', instrument: 'SG', purpose: 'Pulse 소스 (옵션 UNW)', source: 'mxg-scpi' },
+    { command: '[:SOURce]:PULM:SOURce:INTernal SQUare|FRUN|TRIGgered|...', instrument: 'SG', purpose: '내부 pulse 종류', source: 'mxg-scpi' },
+    { command: '[:SOURce]:PULM:INTernal:PERiod <value>', instrument: 'SG', purpose: 'Pulse 주기', source: 'mxg-scpi' },
+    { command: '[:SOURce]:PULM:INTernal:PWIDth <value>', instrument: 'SG', purpose: 'Pulse 폭', source: 'mxg-scpi' },
+    { command: '[:SOURce]:PULM:STATe ON|OFF', instrument: 'SG', purpose: 'Pulse 변조 켜기', source: 'mxg-scpi' },
+    { command: ':OUTPut:MODulation[:STATe] ON', instrument: 'SG', purpose: '변조를 RF 출력에 적용', source: 'mxg-scpi' },
+  ],
+  testProgram: [
+    'Burst 신호의 전력이나 PvT는 zero span(또는 전용 측정)으로 잽니다. 이때 RBW와 sweep time은 결과에 직접 영향을 주므로 규격 값으로 고정하고 기록합니다.',
+    'Trigger 없이 burst를 재면 sweep마다 시작점이 달라 결과가 흔들립니다. 생산 시퀀스에서는 DUT나 SG가 내는 신호로 external trigger를 거는 것이 가장 재현성이 좋습니다.',
+    'Video trigger 레벨은 DUT 출력이 바뀌면 같이 바뀌어야 합니다. 고정 값으로 두면 낮은 출력 조건에서 trigger가 안 걸려 타임아웃이 납니다. 타임아웃 처리는 13번 항목에서 다룹니다.',
+    'Pulse 같은 옵션 기능은 *OPT?로 확인하고, 옵션이 없을 때의 대체 경로나 명확한 에러를 시퀀스에 둡니다.',
+  ],
+  script: 'bench/labs/lab10_zero_span.py',
+}

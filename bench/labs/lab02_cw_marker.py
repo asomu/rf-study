@@ -10,7 +10,7 @@ Steps match the app page #/bench/cw-marker.
 import argparse
 
 from rfbench.cli import Rows, run_lab
-from rfbench.session import Instrument, arm_sg, peak, set_cw, single_sweep
+from rfbench.session import Instrument, arm_sg, difference, peak, set_cw, single_sweep
 
 OFFSET_HZ = 3e3  # small offset that a 10 MHz span with 1001 points cannot resolve
 
@@ -62,7 +62,7 @@ def run(sg: Instrument, sa: Instrument, args: argparse.Namespace) -> Rows:
         single_sweep(sa)
         second = peak(sa)[1]
         rows += [('Level at set level (dBm)', first), ('Level at set level - 10 dB (dBm)', second),
-                 ('Difference (dB)', _difference(second, first))]
+                 ('Difference (dB)', difference(second, first))]
 
         sg.write(':OUTPut:STATe OFF')
         sg.wait()
@@ -73,13 +73,6 @@ def run(sg: Instrument, sa: Instrument, args: argparse.Namespace) -> Rows:
     finally:
         sg.write(':OUTPut:STATe OFF')
     return rows
-
-
-def _difference(a: str, b: str) -> str:
-    try:
-        return f'{float(a) - float(b):.2f}'
-    except ValueError:
-        return '<needs live readings>'
 
 
 def main(argv=None, echo=print) -> int:

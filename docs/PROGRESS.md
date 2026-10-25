@@ -12,9 +12,10 @@ Progress is tracked in three places:
 
 | Measure | Value |
 | --- | --- |
-| Roadmap items ready | 3 / 80 core (+7 deferred) |
-| Modules built | M1 GSM Burst / PvT Lab; Bench 01 연결과 안전 |
-| Bench practice | Item 01 built; awaiting the first run on the lab bench |
+| Roadmap items ready | 15 / 80 core (+7 deferred) |
+| Modules built | M1 GSM Burst / PvT Lab; SG + SA bench series 01–13 |
+| Bench practice | Items 01–13 built (pages + dry-run scripts); none practised on the lab bench yet |
+| Track 5 remaining | VNA, power sensor, DC supply, multi-instrument sync: waiting for instrument models |
 | M1 learner evidence | Not started (challenges and teach-back pending) |
 | Deploy | Live at https://asomu.github.io/rf-study/ (public), deployed by GitHub Actions on push to `main` |
 
@@ -63,5 +64,5 @@ Levels are self-assessed. Fill in the current level the first time a track is st
 | GSM Burst/PvT Lab (M1) | Validated | Learn → Lab → Challenge → Review |
 | Progress tracking in app | Validated | Local evidence for M1; bench predictions and measurements under `rf-study:bench:v1` |
 | Bench practice pages | Validated | `#/bench/:itemId`; one data file per item in `src/content/bench/` |
-| Bench scripts | Validated (dry-run) | `bench/` PyVISA scripts; fake-transport tests in CI; not yet run on real instruments |
+| Bench scripts | Validated (dry-run) | 13 PyVISA labs in `bench/labs/`; shared safety tests in CI; not yet run on real instruments |
 | Per-item learning progress on home | Idea | Home shows build status only |

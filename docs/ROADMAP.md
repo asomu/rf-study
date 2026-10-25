@@ -31,7 +31,7 @@ Lower layers are the foundation for upper layers. Counts are as of 2026-10-25.
 | 8 | 생산 테스트 최적화 | 시간을 줄이면서 품질을 지키려면 | 데이터 · 생산 | 3 | 3 |
 | 9 | 수신기와 프로토콜 | 관심 분야, 1–8번 트랙 뒤에 다룰 후보 | 후순위 후보 | 7 | 0 |
 
-Total 87 items: 80 core, 7 deferred. Ready: 3 (two served by M1, one bench item).
+Total 87 items: 80 core, 7 deferred. Ready: 15 (two served by M1, thirteen SG + SA bench items).
 
 Track 5 holds the SG + SA thru practice series (13 items, one built at a time per [bench/SPEC.md](bench/SPEC.md)) and four other-instrument items.
 
@@ -50,7 +50,7 @@ Track 7 is closest to daily work and may be pulled forward. The order is a defau
 | Module | Roadmap items | Status | Docs |
 | --- | --- | --- | --- |
 | M1 GSM Burst / PvT Lab | `gsm-normal-burst` (track 3), `switching-transient` (track 4) | Ready | [SPEC](m1/SPEC.md) · [REVIEW](m1/REVIEW.md) |
-| Bench 01 연결과 안전 | `connection-safety` (track 5) | Ready | [Bench SPEC](bench/SPEC.md) · script `bench/labs/lab01_connection.py` |
+| SG + SA bench series 01–13 | 13 items in track 5 group "SG + SA 쓰루 실습" | Ready (material); not yet practised on the bench | [Bench SPEC](bench/SPEC.md) · scripts `bench/labs/lab01…lab13` |
 
 ## Filling the Next Item
 
