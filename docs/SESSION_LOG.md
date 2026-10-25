@@ -164,5 +164,27 @@ Blocked:
 Next actions:
 
 - Practise items 01–13 on the lab bench; paste results back to review.
-- Get instrument models for the remaining track 5 items.
+
+## 2026-10-25 - Track 5 Complete: VNA, Power Sensor, DC Supply, Sync
+
+Goal:
+
+- Finish track 5 material for the learner's other instruments: E5071C, U2053XA, N6700C.
+
+Progress:
+
+- Sources: E5071C online command reference and data sheet 5989-5479EN; U2000 Series power sensor programming guide 9018-01701 (same Keysight sensor command family; recheck on U2053XA) and 2050/60 X-Series data sheet 5992-0040; N6700C Operating and Service Guide.
+- Built 11 items with pages and dry-run scripts: VNA 4 (basics, calibration, attenuator as DUT, automation), power sensor 3 (zero/average, burst duty cycle, sensor-referenced path cal), DC supply 3 (limits/protection, remote sense, current measurement), sync 1 (test point).
+- Facts worth remembering: E5071C preset leaves RF ON at 0 dBm; U2053XA is average-only, so burst power is average ÷ duty cycle; N6700C *RST is OVP MAX, OCP OFF, current 0; remote sense is wiring only; array current measurement depends on the module.
+- Scripts now declare ROLES; the shared safety test checks per-role rules (SG power limit, VNA port power, PS OVP/OCP before output on; outputs off last). A dedicated test checks DC-before-RF and RF-off-before-DC-off in the sync lab.
+- Track 5: 24 of 24 items ready as material. Roadmap: 26 of 87 core ready.
+
+Blocked:
+
+- None. N6700C module models are unknown; scripts read them with SYSTem:CHANnel:MODel?.
+
+Next actions:
+
+- Practise the track 5 items on the lab bench and paste results back.
+- Waveforms on SG and SA (Idea Backlog) when the learner is ready.
 - Start M1 learner evidence: challenges and the 90-second teach-back.

@@ -34,7 +34,6 @@ export const ROADMAP_LAYERS: { id: RoadmapLayer; label: string }[] = [
 
 const GSM_PVT_LAB_HREF = '/modules/gsm-pvt/learn'
 const SG_SA = 'SG + SA 쓰루 실습'
-const OTHER_INSTRUMENTS = '다른 장비'
 
 const planned = (id: string, title: string, origin: RoadmapItemOrigin, group?: string): RoadmapItem => ({ id, title, status: 'planned', origin, group })
 
@@ -143,10 +142,17 @@ export const ROADMAP_TRACKS: RoadmapTrack[] = [
       { id: 'trigger-sync', title: 'Trigger와 *OPC? 동기화', status: 'ready', origin: 'wiki', group: SG_SA, href: '/bench/trigger-sync' },
       { id: 'modulated-signal', title: '변조 신호: channel power · ACP', status: 'ready', origin: 'wiki', group: SG_SA, href: '/bench/modulated-signal' },
       { id: 'scpi-patterns', title: 'SCPI 자동화 패턴: 상태 관리 · 에러 처리 · 타임아웃', status: 'ready', origin: 'new', group: SG_SA, href: '/bench/scpi-patterns' },
-      planned('vna-calibration', 'VNA · calibration · reference plane', 'wiki', OTHER_INSTRUMENTS),
-      planned('power-sensor', 'Power sensor: average · peak · burst', 'wiki', OTHER_INSTRUMENTS),
-      planned('dc-supply', 'DC power supply: bias · remote sense · 전류 측정', 'wiki', OTHER_INSTRUMENTS),
-      planned('instrument-sync', '한 test point를 여러 장비가 함께 만드는 동기화', 'wiki', OTHER_INSTRUMENTS),
+      { id: 'vna-basics', title: 'S-parameter와 VNA 기본 설정', status: 'ready', origin: 'wiki', group: 'VNA (E5071C)', href: '/bench/vna-basics' },
+      { id: 'vna-calibration', title: 'Calibration과 기준면', status: 'ready', origin: 'wiki', group: 'VNA (E5071C)', href: '/bench/vna-calibration' },
+      { id: 'vna-measure-pad', title: '감쇠기를 DUT로: 손실 · 정합 · 지연', status: 'ready', origin: 'wiki', group: 'VNA (E5071C)', href: '/bench/vna-measure-pad' },
+      { id: 'vna-automation', title: 'VNA 자동화: trigger · 데이터 · limit test', status: 'ready', origin: 'wiki', group: 'VNA (E5071C)', href: '/bench/vna-automation' },
+      { id: 'pm-zero-average', title: '파워센서 zeroing · 주파수 · 평균', status: 'ready', origin: 'wiki', group: '파워센서 (U2053XA)', href: '/bench/pm-zero-average' },
+      { id: 'pm-burst-duty', title: '평균 센서로 burst 재기: duty cycle 보정', status: 'ready', origin: 'wiki', group: '파워센서 (U2053XA)', href: '/bench/pm-burst-duty' },
+      { id: 'pm-path-cal', title: '파워센서 기준 경로 손실 cal', status: 'ready', origin: 'wiki', group: '파워센서 (U2053XA)', href: '/bench/pm-path-cal' },
+      { id: 'ps-limits-protection', title: '전압 · 전류 설정과 보호 (CV/CC, OVP, OCP)', status: 'ready', origin: 'wiki', group: 'DC 전원 (N6700C)', href: '/bench/ps-limits-protection' },
+      { id: 'ps-remote-sense', title: 'Remote sense와 선로 전압 강하', status: 'ready', origin: 'wiki', group: 'DC 전원 (N6700C)', href: '/bench/ps-remote-sense' },
+      { id: 'ps-current-measure', title: '전류 측정: 범위 · 적분 시간 · 배열', status: 'ready', origin: 'wiki', group: 'DC 전원 (N6700C)', href: '/bench/ps-current-measure' },
+      { id: 'instrument-sync', title: '한 test point를 여러 장비로 만들기', status: 'ready', origin: 'wiki', group: '다장비 동기화', href: '/bench/instrument-sync' },
     ],
   },
   {

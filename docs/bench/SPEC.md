@@ -1,9 +1,10 @@
-# Bench Spec — SG + SA Thru Practice
+# Bench Spec — Instrument Practice (Track 5)
 
-**Status:** Items 01–13 built (2026-10-25); bench practice pending
-**Bench:** Keysight N5182B MXG (SG) → cable → fixed attenuator → N9020B MXA (SA)
+**Status:** All 24 items built (2026-10-25); bench practice pending
+**Instruments:** N5182B MXG (SG), N9020B MXA (SA), E5071C ENA (VNA), U2053XA USB power sensor, N6700C modular power system
+**SG + SA bench:** N5182B → cable → fixed attenuator → N9020B
 **Control:** a separate lab PC runs the scripts; this repo only ships them
-**Roadmap:** track 5, group "SG + SA 쓰루 실습"
+**Roadmap:** track 5, groups SG + SA 쓰루 실습 · VNA · 파워센서 · DC 전원 · 다장비 동기화
 
 ## 1. Learning Contract
 
@@ -44,6 +45,18 @@ Predictions and measured values are saved in the browser under `rf-study:bench:v
 - `--live --sg <VISA address> --sa <VISA address>` controls real instruments. Addresses are never hard-coded.
 - Each lab script prints a plain results table to paste back into the app or into chat.
 - Unit tests use a fake transport and run with `python3 -m unittest` from `bench/`.
+- Each lab declares `ROLES` (`sg`, `sa`, `vna`, `pm`, `ps`); the shared test checks every role's rule below.
+
+### Per-instrument safety
+
+| Role | Rule | Source |
+| --- | --- | --- |
+| SG | User power max ≤ 0 dBm enabled before RF on; RF off last | N5180-90057 |
+| SA | Input ≤ 0 dBm in practice (max safe +30 dBm) | 9018-04846 |
+| VNA | Port power ≤ 0 dBm set before output on (E5071C preset is RF ON at 0 dBm); output off last. Max test port input +10 dBm, damage +26 dBm | E5071C help, 5989-5479EN |
+| Power sensor | Read-only; practice input ≤ 0 dBm (range −70 to +26 dBm) | 5992-0040 |
+| DC supply | OVP, current limit, OCP set before output on (*RST: OVP MAX, OCP OFF, current 0); practice ≤ 5 V, ≤ 0.5 A; output off last | N6700C Operating and Service Guide |
+| Multi-instrument | DC on before RF on; RF off before DC off, also on errors | — |
 
 ## 5. Sources
 
@@ -70,6 +83,8 @@ Each item's SCPI table cites one of these. A command not found in them is marked
 11. Trigger와 동기화
 12. 변조 신호 (options permitting)
 13. SCPI 자동화 패턴
+
+Other instruments: VNA 1–4 (basics, calibration, attenuator as DUT, automation), power sensor 1–3 (zero/average, burst duty cycle, sensor-referenced path cal), DC supply 1–3 (limits and protection, remote sense, current measurement), sync 1 (test point).
 
 Items are built one at a time. Since 2026-10-25 the learner prepares material ahead of bench time: items may be built before earlier ones are practised, and practice results come back later through the record fields.
 

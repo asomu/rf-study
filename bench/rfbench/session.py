@@ -123,13 +123,27 @@ class Instrument:
         self.transport.close()
 
 
+ROLE_NAMES = {'sg': 'SG', 'sa': 'SA', 'vna': 'VNA', 'pm': 'PM', 'ps': 'PS'}
+
+VNA_PRACTICE_LIMIT_DBM = 0.0   # E5071C max test port input +10 dBm (data sheet 5989-5479EN); keep well below
+PS_PRACTICE_MAX_V = 5.0        # bench practice without a known DUT
+PS_PRACTICE_MAX_A = 0.5
+
+
+def open_instruments(live: bool, addresses: Dict[str, Optional[str]],
+                     echo: Callable[[str], None] = print) -> Dict[str, Instrument]:
+    """Open one Instrument per role ('sg', 'sa', 'vna', 'pm', 'ps'). Dry-run unless live."""
+    if not live:
+        return {role: Instrument(ROLE_NAMES[role], DryRunTransport(ROLE_NAMES[role], echo)) for role in addresses}
+    missing = [role for role, address in addresses.items() if not address]
+    if missing:
+        raise SystemExit('--live needs VISA addresses for: ' + ', '.join(f'--{role}' for role in missing))
+    return {role: Instrument(ROLE_NAMES[role], PyVisaTransport(address)) for role, address in addresses.items()}
+
+
 def open_pair(live: bool, sg_address: Optional[str], sa_address: Optional[str],
               echo: Callable[[str], None] = print) -> Dict[str, Instrument]:
-    if not live:
-        return {'sg': Instrument('SG', DryRunTransport('SG', echo)), 'sa': Instrument('SA', DryRunTransport('SA', echo))}
-    if not sg_address or not sa_address:
-        raise SystemExit('--live needs both --sg and --sa VISA addresses')
-    return {'sg': Instrument('SG', PyVisaTransport(sg_address)), 'sa': Instrument('SA', PyVisaTransport(sa_address))}
+    return open_instruments(live, {'sg': sg_address, 'sa': sa_address}, echo)
 
 
 def arm_sg(sg: Instrument, limit_dbm: float) -> None:
@@ -206,6 +220,26 @@ def difference(a: str, b: str) -> str:
 def format_table(rows: List[Tuple[str, str]]) -> str:
     width = max(len(name) for name, _ in rows)
     return '\n'.join(f'{name.ljust(width)}  {value}' for name, value in rows)
+
+
+def arm_vna(vna: Instrument, port_power_dbm: float, channel: int = 1) -> None:
+    """Set port power before the stimulus is on (E5071C preset leaves RF ON at 0 dBm)."""
+    if port_power_dbm > VNA_PRACTICE_LIMIT_DBM:
+        raise SystemExit(f'VNA port power {port_power_dbm} dBm is above the practice limit {VNA_PRACTICE_LIMIT_DBM} dBm')
+    vna.write(':OUTPut:STATe OFF')
+    vna.write(f':SOURce{channel}:POWer:LEVel:IMMediate:AMPLitude {port_power_dbm}')
+    vna.check_errors()
+
+
+def arm_ps(ps: Instrument, channel: int, ovp_v: float, current_limit_a: float) -> None:
+    """Output off, then OVP, current limit and OCP before anything can turn the output on."""
+    if ovp_v > PS_PRACTICE_MAX_V * 1.2 or current_limit_a > PS_PRACTICE_MAX_A:
+        raise SystemExit(f'PS limits {ovp_v} V / {current_limit_a} A exceed the practice limits')
+    ps.write(f':OUTPut:STATe OFF,(@{channel})')
+    ps.write(f':SOURce:VOLTage:PROTection:LEVel {ovp_v},(@{channel})')
+    ps.write(f':SOURce:CURRent:LEVel:IMMediate:AMPLitude {current_limit_a},(@{channel})')
+    ps.write(f':SOURce:CURRent:PROTection:STATe ON,(@{channel})')
+    ps.check_errors()
 
 
 def check_practice_level(level_dbm: float, limit_dbm: float) -> None:

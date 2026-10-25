@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { BENCH_SOURCES, getBenchItem, type BenchItem } from '../content/bench'
+import { BENCH_SOURCES, SG_SA_SERIES, SG_SA_SETUP, getBenchItem, type BenchItem } from '../content/bench'
 import type { BenchStep } from '../content/bench/types'
 import { useBenchRecords, type BenchEntry } from '../state/benchRecords'
 
@@ -42,10 +42,10 @@ function BenchContent({ item }: { item: BenchItem }) {
       <header className="bench-header">
         <div className="bench-header-inner">
           <Link to="/" className="bench-back"><span aria-hidden="true">←</span> 로드맵</Link>
-          <span className="bench-kicker">SG + SA 쓰루 실습 · {String(item.number).padStart(2, '0')}</span>
+          <span className="bench-kicker">{item.series ?? SG_SA_SERIES} · {String(item.number).padStart(2, '0')}</span>
           <h1>{item.title}</h1>
           <p>{item.summary}</p>
-          <p className="bench-bench-line">N5182B MXG → 케이블 → 감쇠기 → N9020B MXA</p>
+          <p className="bench-bench-line">{item.setup ?? SG_SA_SETUP}</p>
         </div>
       </header>
 

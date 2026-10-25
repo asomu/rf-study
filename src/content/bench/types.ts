@@ -1,5 +1,14 @@
-export type BenchInstrument = 'SG' | 'SA' | 'SG · SA'
-export type BenchSourceId = 'ieee-488.2' | 'mxg-scpi' | 'xsa-scpi' | 'mxa-spec'
+export type BenchInstrument = 'SG' | 'SA' | 'SG · SA' | 'VNA' | '파워센서' | 'DC 전원' | '공통'
+export type BenchSourceId =
+  | 'ieee-488.2'
+  | 'mxg-scpi'
+  | 'xsa-scpi'
+  | 'mxa-spec'
+  | 'e5071c-help'
+  | 'e5071c-spec'
+  | 'u2000-pg'
+  | 'u2050-spec'
+  | 'n6700c-osg'
 
 export interface BenchSetting {
   name: string
@@ -35,6 +44,10 @@ export interface BenchItem {
   id: string
   number: number
   title: string
+  /** Series name shown above the title. Defaults to the SG + SA thru series. */
+  series?: string
+  /** Bench wiring shown in the header. Defaults to the SG + SA thru path. */
+  setup?: string
   summary: string
   principle: string[]
   settings: BenchSetting[]

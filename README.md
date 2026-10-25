@@ -45,8 +45,8 @@ npm run dev
 
 ## Current Status
 
-- Roadmap: 9 tracks, 87 items (80 core, 7 deferred); 15 ready
-- Bench practice: SG + SA thru series 01–13 ready as material; bench runs pending
+- Roadmap: 9 tracks, 94 items (87 core, 7 deferred); 26 ready
+- Track 5 (instruments): 24 bench items ready as material (SG/SA, VNA, power sensor, DC supply, sync); bench runs pending
 - M1 GSM Burst/PvT Lab: validated locally
 - Deploy: https://asomu.github.io/rf-study/ (public), via GitHub Actions on push to `main`
 
@@ -68,7 +68,8 @@ Build against the spec, then run one independent review before marking it ready.
 
 ## Next Actions
 
-1. Practise SG + SA items 01–13 on the lab bench and record the results.
-2. Finish track 5: VNA, power sensor, DC supply, multi-instrument sync (need instrument models).
-3. Extend accessibility checks to post-interaction states.
-4. Complete M1 challenges and the 90-second teach-back as learner evidence.
+1. Practise the track 5 bench items on the lab bench and record the results.
+2. Waveforms on SG and SA (next instrument topic, see Idea Backlog).
+3. Pick the next roadmap track.
+4. Extend accessibility checks to post-interaction states.
+5. Complete M1 challenges and the 90-second teach-back as learner evidence.

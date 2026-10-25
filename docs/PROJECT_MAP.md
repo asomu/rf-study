@@ -44,7 +44,7 @@ flowchart BT
 | --- | --- | --- |
 | Roadmap home | `#/` | Validated |
 | M1 GSM Burst / PvT Lab | `#/modules/gsm-pvt/{learn,lab,challenge,review}` | Validated |
-| Bench practice (SG + SA thru) | `#/bench/<item-id>` | Item 01 validated |
+| Bench practice (track 5) | `#/bench/<item-id>` | 24 items validated as material |
 | Progress tracking | browser localStorage, schema v3 | Validated for M1 |
 
 Unknown routes redirect to the roadmap home.

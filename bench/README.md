@@ -1,4 +1,4 @@
-# Bench scripts — SG + SA thru practice
+# Bench scripts — instrument practice (track 5)
 
 Python scripts for the bench items in the app (`#/bench/...`). Rules live in [docs/bench/SPEC.md](../docs/bench/SPEC.md).
 
@@ -37,14 +37,29 @@ The first command is a dry run: it prints every SCPI line and sends nothing. The
 | `labs.lab12_modulated_signal` | Channel power · ACP | SG UNT for AM (skipped if absent) |
 | `labs.lab13_scpi_patterns` | SCPI 자동화 패턴 | — |
 
-All scripts accept `--freq`, `--level`, and `--limit` (default 1 GHz, −10 dBm, 0 dBm limit).
+| `labs.lab_vna1_basics` | VNA S-parameter와 기본 설정 | — |
+| `labs.lab_vna2_calibration` | Calibration (`--mechanical` 또는 `--ecal`) | cal kit / ECal |
+| `labs.lab_vna3_measure_pad` | 감쇠기를 DUT로 | — |
+| `labs.lab_vna4_automation` | VNA 자동화 (`--pad`) | — |
+| `labs.lab_pm1_zero_average` | 파워센서 zero · 주파수 · 평균 | — |
+| `labs.lab_pm2_burst_duty` | Burst와 duty cycle | SG UNW (skipped if absent) |
+| `labs.lab_pm3_path_cal` | 센서 기준 경로 cal (`--freqs`) | — |
+| `labs.lab_ps1_limits_protection` | 전압 · 전류 · 보호 (`--channel`) | 10 Ω load |
+| `labs.lab_ps2_remote_sense` | Remote sense | 10 Ω load, DMM optional |
+| `labs.lab_ps3_current_measure` | 전류 측정 | 10 Ω load; array needs module support |
+| `labs.lab_sync_test_point` | 다장비 test point (`--use-sa`, `--fail-at sa`) | — |
+
+Each script asks only for the instruments it uses: `--sg`, `--sa`, `--vna`, `--pm`, `--ps` (VISA addresses). All accept `--freq`, `--level` (SG level or VNA port power), and `--limit` (SG user power max, at most 0 dBm). Scripts that need a wiring change pause for Enter only in `--live` mode.
 
 Paste the "results" table into the app's record fields or into chat.
 
 ## Safety built into every script
 
-- SG user power max is set and enabled before RF can turn on; default 0 dBm, never above 0 dBm.
-- RF output is turned off on exit, including after an error.
+- SG: user power max set and enabled before RF can turn on; default 0 dBm, never above 0 dBm.
+- VNA: port power set (≤ 0 dBm) before output on; output off on exit.
+- DC supply: OVP, current limit, and OCP set before output on; output off on exit.
+- Multi-instrument: DC bias before RF, RF off before DC off.
+- Outputs are turned off on exit, including after an error.
 - The error queue is checked after each configuration block; any error stops the run.
 
 ## Tests
