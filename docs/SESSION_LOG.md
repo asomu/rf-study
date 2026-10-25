@@ -99,13 +99,15 @@ Decisions:
 
 - Found the CI failure's root cause: the axe E2E only waited for `#main-content`, which is visible while a lazy route shows its loading fallback, so locally axe scanned the loading screen and always passed. With the wait fixed, Learn had 16 and Lab 26 real color-contrast violations. Fixed the test wait and the muted text colors; all five pages scan clean.
 
+- CI run 40158505500 passed unit, E2E, build and smoke for the first time, then stopped at "Configure GitHub Pages": Pages is not enabled on `asomu/rf-study` (API 404).
+
 Blocked:
 
-- None, once the pushed CI run deploys.
+- GitHub Pages is not enabled for the repository. Enabling it (Settings → Pages → Source: GitHub Actions) is a repository setting the owner must approve.
 
 Next actions:
 
-- Confirm the GitHub Pages deploy succeeded.
+- Enable Pages with source "GitHub Actions", then re-run the workflow.
 - Pick the first roadmap item to fill and set it to `building` in `roadmap.ts`.
 - Extend axe to post-interaction states (Lab after a run, Review with evidence).
 - Start M1 learner evidence: challenges and the 90-second teach-back.
